@@ -29,13 +29,13 @@ public class FXMLController {
         if(!state.isgoal(buttons)) {
             if (state.avaliable(buttonindex)) {
                 state.put(buttonindex);
-                if (this.buttons.size() == 12) {
+                if (buttons.size() == 12) {
                     buttons.get(buttonindex).setOpacity(0.4);
                     buttons.get(buttonindex).setDisable(true);
-                    this.buttons = State.setlist2(buttonindex, this.buttons);
+                    buttons = State.setlist2(buttonindex, buttons);
                 } else {
                     buttons.get(buttonindex).setDisable(true);
-                    this.buttons.remove(buttonindex).setOpacity(0.4);
+                    buttons.remove(buttonindex).setOpacity(0.4);
                 }
             }
             else error.setText("rossz lépés");

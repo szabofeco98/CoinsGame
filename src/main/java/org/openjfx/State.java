@@ -27,28 +27,37 @@ public class State {
     }
 
     public  void put(int actuall){
-        logger.info("fasz");
-        logger.debug("sss");
-
         if (this.coins.size()==12){
-            score1+=this.coins.get(actuall);
-            this.coins=setlist2(actuall,coins);
+            score1+=coins.get(actuall);
+            coins=setlist2(actuall,coins);
         }
         else{
-            if(roundnumber%2==0)
-                score1+=this.coins.remove(actuall);
-            else  score2+=this.coins.remove(actuall);
+            if(roundnumber%2==0){
+                score1+=coins.remove(actuall);
+                logger.debug(coins.toString());
+            }
+            else{
+                score2+=coins.remove(actuall);
+                logger.debug(coins.toString());
+            }
         }
 
-        System.out.println(" score1 "+score1+" score2 "+score2);
+        logger.debug(name1+": "+score1+" , "+name2+": "+score2);
         roundnumber++;
-
     }
 
     public boolean avaliable(int i){
-        if(this.coins.size()==12) return true;
-        else if(i==0 || i==this.coins.size()-1){return true;}
-        else return false;
+        if(this.coins.size()==12){
+            logger.debug("alkalmazható");
+            return true;
+        }
+        else if(i==0 || i==this.coins.size()-1){
+            logger.debug("alkalmazható");
+            return true;}
+        else {
+            logger.warn("nem alkalmazható");
+            return false;
+        }
     }
 
 
@@ -60,6 +69,7 @@ public class State {
         for(int i=list.size()-1;i>actuall;i--){
             coinsnew.add(0,(T)list.get(i));
         }
+        logger.debug(coinsnew.toString());
         return coinsnew;
     }
 
