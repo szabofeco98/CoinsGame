@@ -1,0 +1,15 @@
+.toggle {
+        -fx-background-radius:100%;
+        -fx-border-radius:100%;
+        -fx-background-color:gold;
+        -fx-border-color: black;
+        -fx-text-align:center;
+
+}
+.toggle:hover{
+        -fx-border-style: solid;
+         -fx-border-color: red;
+}
+#label{
+    -fx-text-align:center;
+}
