@@ -1,12 +1,20 @@
 package org.openjfx;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class State {
+    private static Logger logger = LoggerFactory.getLogger(State.class);
+
     static List<Integer> coins=new ArrayList<>();
+
     public int score1=0,score2=0,roundnumber=0;
+
     public static String name1="",name2="";
+
     public State(){
         for (int i=0;i<12;i++){
             int random = (int )(Math.random() * 9 + 1);
@@ -19,6 +27,9 @@ public class State {
     }
 
     public  void put(int actuall){
+        logger.info("fasz");
+        logger.debug("sss");
+
         if (this.coins.size()==12){
             score1+=this.coins.get(actuall);
             this.coins=setlist2(actuall,coins);
