@@ -1,12 +1,12 @@
-<Configuration status="debug">
+<Configuration status="all">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="all">
-            <AppenderRef ref="Console"/>
-        </Root>
+            <logger name="org.openjfx.State" >
+                <level value="all"/>
+            </logger>
     </Loggers>
 </Configuration>

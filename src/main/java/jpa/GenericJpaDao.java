@@ -14,7 +14,7 @@ public abstract class GenericJpaDao<T> {
     protected Class<T> entityClass;
     protected EntityManager entityManager;
 
-    public GenericJpaDao(Class<StateDao> entityClass) {
+    public GenericJpaDao(Class<T> entityClass) {
         this.entityClass = (Class<T>) entityClass;
     }
 

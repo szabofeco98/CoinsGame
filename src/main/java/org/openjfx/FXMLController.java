@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import org.openjfx.modell.StateData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,11 @@ public class FXMLController {
     @FXML
     private GridPane grid;
     @FXML
-    private Pane pane1,pane2;
+    private Pane Main_menu, Pop_up_Menu,RankingPane;
     @FXML
-    TextField text_field1,text_field2;
+    TextField get_name1,get_name2;
+    @FXML
+    TextArea ranking;
     @FXML
     private void handleButtonAction(ActionEvent event) {
         int buttonindex = getbutton();
@@ -49,20 +52,18 @@ public class FXMLController {
 
 
     public void startButton(ActionEvent actionEvent) {
-        String space1=text_field1.getText().replaceAll("\\s+", "");
-        String space2=text_field2.getText().replaceAll("\\s+", "");
-        if(!space1.isEmpty() && !space2.isEmpty() && !space1.equals(space2)) {
-            state.name1=space1;
-            state.name2=space2;
+        state.name1=get_name1.getText().replaceAll("\\s+", "");
+        state.name2=get_name2.getText().replaceAll("\\s+", "");
+        if(!state.name1.isEmpty() && !state.name2.isEmpty() && !state.name1.equals(state.name2)) {
             gamer1.setText(state.name1);
             gamer2.setText(state.name2);
             grid.setVisible(true);
-            pane1.setVisible(false);
+            Main_menu.setVisible(false);
         }
     }
 
     public void restart(ActionEvent actionEvent) {
-        pane2.setVisible(false);
+        Pop_up_Menu.setVisible(false);
         grid.setOpacity(1);
         swap();
         gamer1.setText(state.name1);
@@ -75,8 +76,16 @@ public class FXMLController {
     }
 
     public void score(ActionEvent actionEvent) {
+        set_Rank_test();
+        Main_menu.setVisible(false);
+        RankingPane.setVisible(true);
     }
 
+    public void back(ActionEvent actionEvent) {
+        ranking.setText("");
+        Main_menu.setVisible(true);
+        RankingPane.setVisible(false);
+    }
 
     public void initialize() {
         state=new State();
@@ -93,9 +102,15 @@ public class FXMLController {
         label2.setText(0+"");
     }
 
+    public void set_Rank_test(){
+        int i=1;
+        for (StateData std:state.ranklist()){
+            ranking.appendText(i+". "+std.getUser_name()+"-"+std.getScore()+"\n");
+            i++;
+        }
+    }
 
     public int getbutton(){
-
         for (int i=0;i<this.buttons.size();i++){
             if (buttons.get(i).isSelected()){
                 buttons.get(i).setSelected(false);
@@ -109,16 +124,11 @@ public class FXMLController {
         state.put(buttonindex);
         buttons.remove(buttonindex).setOpacity(0.4);
         grid.setOpacity(0.5);
-        pane2.setVisible(true);
-        if(state.score1>state.score2) {
-            label.setText(state.name1);
-        }
-        else if (state.score1<state.score2){
-            label.setText(state.name2);
-        }
-        else{
-            label.setText("Döntetlen");
-        }
+        Pop_up_Menu.setVisible(true);
+        String winner=state.score1>state.score2 ? state.name1:
+                state.score1<state.score2 ? state.name2:"Döntetlen";
+        label.setText(winner);
+        state.dataset(winner);
     }
 
     public void swap(){
