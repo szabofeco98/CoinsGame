@@ -1,8 +1,12 @@
 package org.openjfx;
 
+import com.google.j2objc.annotations.Property;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import org.openjfx.modell.StateData;
@@ -13,17 +17,20 @@ import java.util.List;
 public class FXMLController {
     State state;
     List<ToggleButton> buttons;
-
     @FXML
-    Label label,label1,label2,error,gamer1,gamer2;
+    TableView ranklist;
+    @FXML
+    TableColumn name,listscore;
+    @FXML
+    Label label,error,gamer1,gamer2,gamerscore1,gamerscore2;
     @FXML
     private GridPane grid;
     @FXML
-    private Pane Main_menu, Pop_up_Menu,RankingPane;
+    private Pane Main_menu, Pop_up_Menu,RankingPane,help_Menu;
     @FXML
     TextField get_name1,get_name2;
-    @FXML
-    TextArea ranking;
+
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
         int buttonindex = getbutton();
@@ -46,10 +53,11 @@ public class FXMLController {
         else {
             endGame(buttonindex);
         }
-        label1.setText(state.score1+"");
-        label2.setText(state.score2+"");
-    }
+        gamerscore1.setText(state.score1+"");
+        gamerscore2.setText(state.score2+"");
 
+
+    }
 
     public void startButton(ActionEvent actionEvent) {
         state.name1=get_name1.getText().replaceAll("\\s+", "");
@@ -82,9 +90,29 @@ public class FXMLController {
     }
 
     public void back(ActionEvent actionEvent) {
-        ranking.setText("");
         Main_menu.setVisible(true);
         RankingPane.setVisible(false);
+    }
+
+    public void main_menu(ActionEvent actionEvent) {
+        Pop_up_Menu.setVisible(false);
+        grid.setVisible(false);
+        Main_menu.setVisible(true);
+        grid.setOpacity(1);
+        initialize();
+    }
+
+    public void save(ActionEvent actionEvent) {
+    }
+
+    public void help(ActionEvent actionEvent) {
+        grid.setOpacity(0.1);
+        help_Menu.setVisible(true);
+    }
+
+    public void back_Game(ActionEvent actionEvent) {
+        grid.setOpacity(1);
+        help_Menu.setVisible(false);
     }
 
     public void initialize() {
@@ -98,16 +126,14 @@ public class FXMLController {
             buttons.get(i).setDisable(false);
             buttons.get(i).setOpacity(1);
         }
-        label1.setText(0+"");
-        label2.setText(0+"");
+
     }
 
     public void set_Rank_test(){
-        int i=1;
-        for (StateData std:state.ranklist()){
-            ranking.appendText(i+". "+std.getUser_name()+"-"+std.getScore()+"\n");
-            i++;
-        }
+        ObservableList<StateData> obslist=FXCollections.observableList(state.ranklist());
+        name.setCellValueFactory(new PropertyValueFactory<>("user_name"));
+        listscore.setCellValueFactory(new PropertyValueFactory<>("score"));
+        ranklist.setItems(obslist);
     }
 
     public int getbutton(){

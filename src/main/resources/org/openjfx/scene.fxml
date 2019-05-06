@@ -19,18 +19,18 @@
     <children>
       <GridPane fx:id="grid" alignment="CENTER" focusTraversable="true" layoutX="40.0" layoutY="14.0" prefHeight="389.0" prefWidth="591.0" visible="false">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="112.0" minWidth="10.0" prefWidth="96.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="109.0" minWidth="10.0" prefWidth="79.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="89.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.0" minWidth="10.0" prefWidth="69.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="81.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="88.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="0.0" prefWidth="87.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="74.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.0" minWidth="10.0" prefWidth="91.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="74.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="67.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="110.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="24.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="24.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
-            <RowConstraints fillHeight="false" maxHeight="40.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="24.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="48.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
@@ -51,11 +51,19 @@
              <ToggleButton fx:id="coin9" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="35.0" styleClass="toggle" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
              <ToggleButton fx:id="coin10" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="35.0" styleClass="toggle" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
              <ToggleButton fx:id="coin11" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="35.0" styleClass="toggle" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Label fx:id="gamer1" prefHeight="16.0" prefWidth="92.0" text="1.játékos:" GridPane.rowIndex="7" />
-            <Label fx:id="gamer2" prefHeight="16.0" prefWidth="79.0" text="2.játékos:" GridPane.rowIndex="8" />
-            <Label fx:id="label1" prefHeight="16.0" prefWidth="79.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label fx:id="label2" prefHeight="16.0" prefWidth="79.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <Label fx:id="error" prefHeight="40.0" prefWidth="90.0" textAlignment="CENTER" textFill="RED" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label fx:id="gamer1" prefHeight="16.0" prefWidth="73.0" text="1.játékos: " GridPane.rowIndex="7" />
+            <Label fx:id="gamer2" prefHeight="16.0" prefWidth="71.0" text="2.játékos: " GridPane.rowIndex="8" />
+            <Label fx:id="error" prefHeight="40.0" prefWidth="85.0" textAlignment="CENTER" textFill="RED" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <MenuButton fx:id="menu" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Menu">
+              <items>
+                  <MenuItem fx:id="menuexit" mnemonicParsing="false" onAction="#exit" text="Kilépés" />
+                <MenuItem fx:id="Save" mnemonicParsing="false" onAction="#save" text="Mentés" />
+                <MenuItem fx:id="help" mnemonicParsing="false" onAction="#help" text="Segitség" />
+                  <MenuItem mnemonicParsing="false" onAction="#main_menu" text="Fő menü" />
+              </items>
+            </MenuButton>
+            <Label fx:id="gamerscore1" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label fx:id="gamerscore2" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
          </children>
       </GridPane>
       <Pane fx:id="Main_menu" focusTraversable="true" layoutX="133.0" layoutY="58.0" prefHeight="317.0" prefWidth="404.0">
@@ -68,14 +76,15 @@
             <Button id="scores" fx:id="scores" layoutX="146.0" layoutY="225.0" mnemonicParsing="false" onAction="#score" prefHeight="26.0" prefWidth="80.0" text="Ranglista" />
          </children>
       </Pane>
-      <Pane fx:id="Pop_up_Menu" focusTraversable="true" layoutX="236.0" layoutY="82.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+      <Pane fx:id="Pop_up_Menu" focusTraversable="true" layoutX="202.0" layoutY="81.0" prefHeight="255.0" prefWidth="243.0" visible="false">
          <children>
-            <Button layoutX="69.0" layoutY="87.0" mnemonicParsing="false" onAction="#restart" text="Új játék" />
-            <Button fx:id="exit" layoutX="78.0" layoutY="138.0" mnemonicParsing="false" onAction="#exit" text="Kilép" />
-            <Label id="label" fx:id="label" contentDisplay="CENTER" layoutX="67.0" layoutY="42.0" prefHeight="35.0" prefWidth="67.0" style="-fx-alignment: center;" text="Label" textAlignment="CENTER" textFill="#f20404" textOverrun="CENTER_ELLIPSIS" visible="false">
+            <Button layoutX="86.0" layoutY="103.0" mnemonicParsing="false" onAction="#restart" prefHeight="25.0" prefWidth="71.0" text="Új játék" />
+            <Button fx:id="exit" layoutX="97.0" layoutY="200.0" mnemonicParsing="false" onAction="#exit" text="Kilép" />
+            <Label id="label" fx:id="label" contentDisplay="CENTER" layoutX="76.0" layoutY="36.0" prefHeight="35.0" prefWidth="92.0" style="-fx-alignment: center;" textAlignment="CENTER" textFill="#f20404" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
+            <Button fx:id="main_menu" layoutX="86.0" layoutY="153.0" mnemonicParsing="false" onAction="#main_menu" text="Főmenü" />
 
          </children>
       </Pane>
@@ -86,8 +95,22 @@
                   <Font size="22.0" />
                </font>
             </Label>
-            <TextArea fx:id="ranking" editable="false" layoutX="51.0" layoutY="46.0" prefHeight="240.0" prefWidth="305.0" />
-            <Button fx:id="back" onAction="#back" layoutX="294.0" layoutY="292.0" mnemonicParsing="false" text="Vissza" />
+            <Button fx:id="back" layoutX="255.0" layoutY="292.0" mnemonicParsing="false" onAction="#back" text="Vissza" />
+            <TableView fx:id="ranklist" layoutX="65.0" layoutY="43.0" prefHeight="228.0" prefWidth="249.0">
+              <columns>
+                <TableColumn fx:id="name" prefWidth="104.0" text="Név" />
+                <TableColumn fx:id="listscore" prefWidth="94.0" text="Pont" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane fx:id="help_Menu" layoutX="158.0" layoutY="81.0" prefHeight="200.0" prefWidth="308.0" visible="false">
+         <children>
+            <Text layoutX="41.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A kezdő játékos az első lépésben bármelyik érmét választhatja. Az első érme eltávolításával az érmegyűrű egy érmesorrá nyílik szét. A továbbiakban csak az érmesor két végén levő érméket lehet elvenni." wrappingWidth="225.5341796875" />
+            <Button layoutX="246.0" layoutY="174.0" mnemonicParsing="false" onAction="#back_Game" text="Vissza" />
          </children>
       </Pane>
     </children>

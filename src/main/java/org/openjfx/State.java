@@ -19,7 +19,7 @@ public class State {
 
     static StateDao stateDao = injector.getInstance(StateDao.class);
 
-    static List<Integer> coins=new ArrayList<>();
+    public List<Integer> coins=new ArrayList<>();
 
     public int score1=0,score2=0,roundnumber=0;
 
