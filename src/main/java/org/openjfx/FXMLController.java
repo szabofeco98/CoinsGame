@@ -91,6 +91,7 @@ public class FXMLController {
     public void back(ActionEvent actionEvent) {
         Main_menu.setVisible(true);
         RankingPane.setVisible(false);
+        ranklist.getItems().clear();
     }
 
     public void main_menu(ActionEvent actionEvent) {
