@@ -110,7 +110,7 @@ public class State {
     }
 
     public int set_User_Score(String winner, StateData user){
-        int user_score= (winner.equals(user.getUser_name())) ?2:0;
+        int user_score= (winner.equals(user.getUser_name())) ?1:0;
         return user_score;
     }
 

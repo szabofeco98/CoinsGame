@@ -40,12 +40,10 @@ public class FXMLController {
             if (state.avaliable(buttonindex)) {
                 state.put(buttonindex);
                 if (buttons.size() == 12) {
-                    buttons.get(buttonindex).setOpacity(0.4);
-                    buttons.get(buttonindex).setDisable(true);
-                    buttons = State.setlist2(buttonindex, buttons);
+                    firststep(buttonindex);
+
                 } else {
-                    buttons.get(buttonindex).setDisable(true);
-                    buttons.remove(buttonindex).setOpacity(0.4);
+                    otherstep(buttonindex);
                 }
             }
             else error.setText("rossz lépés");
@@ -162,6 +160,17 @@ public class FXMLController {
         temp=state.name1;
         state.name1=state.name2;
         state.name2=temp;
+    }
+
+    public void firststep(int buttonindex){
+        buttons.get(buttonindex).setOpacity(0.4);
+        buttons.get(buttonindex).setDisable(true);
+        buttons = State.setlist2(buttonindex, buttons);
+    }
+
+    public void otherstep(int buttonindex){
+        buttons.get(buttonindex).setDisable(true);
+        buttons.remove(buttonindex).setOpacity(0.4);
     }
 
 
