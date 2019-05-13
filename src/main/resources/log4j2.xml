@@ -5,8 +5,8 @@
         </Console>
     </Appenders>
     <Loggers>
-            <logger name="org.openjfx.State" >
-                <level value="all"/>
-            </logger>
+        <Root level="all">
+            <AppenderRef ref="Console"/>
+        </Root>
     </Loggers>
 </Configuration>

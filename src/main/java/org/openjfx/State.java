@@ -4,12 +4,11 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import guice.PersistenceModule;
 import org.openjfx.modell.StateDao;
-import org.openjfx.modell.StateData;
+import org.openjfx.modell.Gamer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class State {
@@ -83,8 +82,8 @@ public class State {
     }
 
     public void dataset(String winner){
-        StateData data1=StateData.builder().user_name(name1).score(1).build();
-        StateData data2=StateData.builder().user_name(name2).score(1).build();
+        Gamer data1= Gamer.builder().user_name(name1).score(1).build();
+        Gamer data2= Gamer.builder().user_name(name2).score(1).build();
         data1.setScore(set_User_Score(winner,data1));
         data2.setScore(set_User_Score(winner,data2));
         data1=itwas(data1);
@@ -97,9 +96,9 @@ public class State {
 
     }
 
-    public StateData itwas(StateData user){
-        List<StateData> database=stateDao.findAll();
-        for (StateData std:database) {
+    public Gamer itwas(Gamer user){
+        List<Gamer> database=stateDao.findAll();
+        for (Gamer std:database) {
             if (std.getUser_name().equals(user.getUser_name())) {
                 std.setScore(std.getScore() + user.getScore());
                 stateDao.update(std);
@@ -109,12 +108,12 @@ public class State {
         return user;
     }
 
-    public int set_User_Score(String winner, StateData user){
+    public int set_User_Score(String winner, Gamer user){
         int user_score= (winner.equals(user.getUser_name())) ?1:0;
         return user_score;
     }
 
-    public  List<StateData> ranklist(){
+    public  List<Gamer> ranklist(){
         return stateDao.rank();
     }
 

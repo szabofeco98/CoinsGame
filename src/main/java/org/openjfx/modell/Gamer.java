@@ -15,13 +15,13 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Builder
 @Entity
-public class StateData {
+public class Gamer {
     @Id
     @GeneratedValue
     long id;
 
     String user_name;
 
-    int score=0;
+    int score;
 
 }

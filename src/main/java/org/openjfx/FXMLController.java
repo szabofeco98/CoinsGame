@@ -1,6 +1,5 @@
 package org.openjfx;
 
-import com.google.j2objc.annotations.Property;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import org.openjfx.modell.StateData;
+import org.openjfx.modell.Gamer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +17,11 @@ public class FXMLController {
     State state;
     List<ToggleButton> buttons;
     @FXML
-    TableView ranklist;
+    TableView<Gamer> ranklist;
     @FXML
-    TableColumn name,listscore;
+    TableColumn<Object, Object> name;
+    @FXML
+    TableColumn<Object, Object> listscore;
     @FXML
     Label label,error,gamer1,gamer2,gamerscore1,gamerscore2;
     @FXML
@@ -82,9 +83,9 @@ public class FXMLController {
     }
 
     public void score(ActionEvent actionEvent) {
-        set_Rank_test();
         Main_menu.setVisible(false);
         RankingPane.setVisible(true);
+        set_Rank();
     }
 
     public void back(ActionEvent actionEvent) {
@@ -125,10 +126,12 @@ public class FXMLController {
             buttons.get(i).setOpacity(1);
         }
 
+        gamerscore1.setText("0");
+        gamerscore2.setText("0");
     }
 
-    public void set_Rank_test(){
-        ObservableList<StateData> obslist=FXCollections.observableList(state.ranklist());
+    public void set_Rank(){
+        ObservableList<Gamer> obslist=FXCollections.observableList(state.ranklist());
         name.setCellValueFactory(new PropertyValueFactory<>("user_name"));
         listscore.setCellValueFactory(new PropertyValueFactory<>("score"));
         ranklist.setItems(obslist);
