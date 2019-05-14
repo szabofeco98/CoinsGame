@@ -7,22 +7,50 @@ import org.openjfx.modell.StateDao;
 import org.openjfx.modell.Gamer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A játék egy állapotát és a hozzá kapcsolódó műveleteket tartalmazza.
+ */
+@Slf4j
 public class State {
-    private static Logger logger = LoggerFactory.getLogger(State.class);
-
     static Injector injector = Guice.createInjector(new PersistenceModule("test"));
 
     static StateDao stateDao = injector.getInstance(StateDao.class);
 
+    /**
+     * Az érméket tartalmazó lista.
+     */
     public List<Integer> coins=new ArrayList<>();
 
-    public int score1=0,score2=0,roundnumber=0;
+    /**
+     * Az első játékos pontszáma.
+     */
+    public int score1=0;
 
-    public static String name1="",name2="";
+    /**
+     *A második játékos pontszáma.
+     */
+    public int score2=0;
+
+    /**
+     * Reprezentálja hogy melyik játékos következik.
+     */
+    public int roundnumber=0;
+
+    /**
+     * Az első játékos neve
+     */
+    public String firstGamer ="";
+
+    /**
+     * A másodk játékos neve
+     */
+    public String secondGamer ="";
 
     public State(){
         for (int i=0;i<12;i++){
@@ -43,28 +71,28 @@ public class State {
         else{
             if(roundnumber%2==0){
                 score1+=coins.remove(actuall);
-                logger.debug(coins.toString());
+                log.debug(coins.toString());
             }
             else{
                 score2+=coins.remove(actuall);
-                logger.debug(coins.toString());
+                log.debug(coins.toString());
             }
         }
 
-        logger.debug(name1+": "+score1+" , "+name2+": "+score2);
+        log.debug(firstGamer +": "+score1+" , "+ secondGamer +": "+score2);
         roundnumber++;
     }
 
     public boolean avaliable(int i){
         if(this.coins.size()==12){
-            logger.debug("alkalmazható");
+            log.debug("alkalmazható");
             return true;
         }
         else if(i==0 || i==this.coins.size()-1){
-            logger.debug("alkalmazható");
+            log.debug("alkalmazható");
             return true;}
         else {
-            logger.warn("nem alkalmazható");
+            log.warn("nem alkalmazható");
             return false;
         }
     }
@@ -77,13 +105,13 @@ public class State {
         for(int i=list.size()-1;i>actuall;i--){
             coinsnew.add(0,(T)list.get(i));
         }
-        logger.debug(coinsnew.toString());
+        log.debug(coinsnew.toString());
         return coinsnew;
     }
 
     public void dataset(String winner){
-        Gamer data1= Gamer.builder().user_name(name1).score(1).build();
-        Gamer data2= Gamer.builder().user_name(name2).score(1).build();
+        Gamer data1= Gamer.builder().user_name(firstGamer).score(1).build();
+        Gamer data2= Gamer.builder().user_name(secondGamer).score(1).build();
         data1.setScore(set_User_Score(winner,data1));
         data2.setScore(set_User_Score(winner,data2));
         data1=itwas(data1);
@@ -107,6 +135,7 @@ public class State {
         }
         return user;
     }
+
 
     public int set_User_Score(String winner, Gamer user){
         int user_score= (winner.equals(user.getUser_name())) ?1:0;

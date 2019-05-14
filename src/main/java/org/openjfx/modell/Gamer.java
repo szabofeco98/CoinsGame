@@ -10,6 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * Entitás osztály amely a játékosokat reprezentálja az adatbázisban
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,8 +23,14 @@ public class Gamer {
     @GeneratedValue
     long id;
 
+    /**
+     * Játékos neve
+     */
     String user_name;
 
+    /**
+     * Játékos pontszáma
+     */
     int score;
 
 }

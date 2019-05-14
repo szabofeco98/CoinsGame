@@ -80,7 +80,7 @@
          <children>
             <Button layoutX="86.0" layoutY="103.0" mnemonicParsing="false" onAction="#restart" prefHeight="25.0" prefWidth="71.0" text="Új játék" />
             <Button fx:id="exit" layoutX="97.0" layoutY="200.0" mnemonicParsing="false" onAction="#exit" text="Kilép" />
-            <Label id="label" fx:id="label" contentDisplay="CENTER" layoutX="76.0" layoutY="36.0" prefHeight="35.0" prefWidth="92.0" style="-fx-alignment: center;" textAlignment="CENTER" textFill="#f20404" textOverrun="CENTER_ELLIPSIS">
+            <Label id="label" fx:id="winner" contentDisplay="CENTER" layoutX="76.0" layoutY="36.0" prefHeight="35.0" prefWidth="92.0" style="-fx-alignment: center;" textAlignment="CENTER" textFill="#f20404" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>

@@ -23,7 +23,7 @@ public class FXMLController {
     @FXML
     TableColumn<Object, Object> listscore;
     @FXML
-    Label label,error,gamer1,gamer2,gamerscore1,gamerscore2;
+    Label winner,error,gamer1,gamer2,gamerscore1,gamerscore2;
     @FXML
     private GridPane grid;
     @FXML
@@ -59,11 +59,11 @@ public class FXMLController {
     }
 
     public void startButton(ActionEvent actionEvent) {
-        state.name1=get_name1.getText().replaceAll("\\s+", "");
-        state.name2=get_name2.getText().replaceAll("\\s+", "");
-        if(!state.name1.isEmpty() && !state.name2.isEmpty() && !state.name1.equals(state.name2)) {
-            gamer1.setText(state.name1);
-            gamer2.setText(state.name2);
+        state.firstGamer =get_name1.getText().replaceAll("\\s+", "");
+        state.secondGamer =get_name2.getText().replaceAll("\\s+", "");
+        if(!state.firstGamer.isEmpty() && !state.secondGamer.isEmpty() && !state.firstGamer.equals(state.secondGamer)) {
+            gamer1.setText(state.firstGamer);
+            gamer2.setText(state.secondGamer);
             grid.setVisible(true);
             Main_menu.setVisible(false);
         }
@@ -73,8 +73,8 @@ public class FXMLController {
         Pop_up_Menu.setVisible(false);
         grid.setOpacity(1);
         swap();
-        gamer1.setText(state.name1);
-        gamer2.setText(state.name2);
+        gamer1.setText(state.firstGamer);
+        gamer2.setText(state.secondGamer);
         initialize();
     }
 
@@ -150,20 +150,21 @@ public class FXMLController {
 
     public void endGame(int buttonindex){
         state.put(buttonindex);
+        buttons.get(buttonindex).setDisable(true);
         buttons.remove(buttonindex).setOpacity(0.4);
         grid.setOpacity(0.5);
         Pop_up_Menu.setVisible(true);
-        String winner=state.score1>state.score2 ? state.name1:
-                state.score1<state.score2 ? state.name2:"Döntetlen";
-        label.setText(winner);
+        String winner=state.score1>state.score2 ? state.firstGamer :
+                state.score1<state.score2 ? state.secondGamer :"Döntetlen";
+        this.winner.setText(winner);
         state.dataset(winner);
     }
 
     public void swap(){
         String temp="";
-        temp=state.name1;
-        state.name1=state.name2;
-        state.name2=temp;
+        temp=state.firstGamer;
+        state.firstGamer =state.secondGamer;
+        state.secondGamer =temp;
     }
 
     public void firststep(int buttonindex){
