@@ -66,17 +66,17 @@
             <Label fx:id="gamerscore2" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
          </children>
       </GridPane>
-      <Pane fx:id="Main_menu" focusTraversable="true" layoutX="133.0" layoutY="58.0" prefHeight="317.0" prefWidth="404.0">
+      <Pane fx:id="mainMenu" focusTraversable="true" layoutX="133.0" layoutY="58.0" prefHeight="317.0" prefWidth="404.0">
          <children>
             <Label layoutX="58.0" layoutY="74.0" prefHeight="25.0" prefWidth="106.0" text="1 játékos neve:" />
             <Label layoutX="58.0" layoutY="114.0" prefHeight="25.0" prefWidth="106.0" text="2 játékos neve:" />
-            <TextField id="get_name1" fx:id="get_name1" layoutX="186.0" layoutY="74.0" prefHeight="26.0" prefWidth="130.0" />
-            <TextField id="get_name2" fx:id="get_name2" layoutX="186.0" layoutY="114.0" prefHeight="26.0" prefWidth="130.0" />
+            <TextField id="get_name1" fx:id="getName1" layoutX="186.0" layoutY="74.0" prefHeight="26.0" prefWidth="130.0" />
+            <TextField id="get_name2" fx:id="getName2" layoutX="186.0" layoutY="114.0" prefHeight="26.0" prefWidth="130.0" />
             <Button id="start" fx:id="start" layoutX="144.0" layoutY="175.0" mnemonicParsing="false" onAction="#startButton" prefHeight="26.0" prefWidth="80.0" text="Játék!" />
             <Button id="scores" fx:id="scores" layoutX="146.0" layoutY="225.0" mnemonicParsing="false" onAction="#score" prefHeight="26.0" prefWidth="80.0" text="Ranglista" />
          </children>
       </Pane>
-      <Pane fx:id="Pop_up_Menu" focusTraversable="true" layoutX="202.0" layoutY="81.0" prefHeight="255.0" prefWidth="243.0" visible="false">
+      <Pane fx:id="popUpMenu" focusTraversable="true" layoutX="202.0" layoutY="81.0" prefHeight="255.0" prefWidth="243.0" visible="false">
          <children>
             <Button layoutX="86.0" layoutY="103.0" mnemonicParsing="false" onAction="#restart" prefHeight="25.0" prefWidth="71.0" text="Új játék" />
             <Button fx:id="exit" layoutX="97.0" layoutY="200.0" mnemonicParsing="false" onAction="#exit" text="Kilép" />
@@ -107,7 +107,7 @@
             </TableView>
          </children>
       </Pane>
-      <Pane fx:id="help_Menu" layoutX="158.0" layoutY="81.0" prefHeight="200.0" prefWidth="308.0" visible="false">
+      <Pane fx:id="helpMenu" layoutX="158.0" layoutY="81.0" prefHeight="200.0" prefWidth="308.0" visible="false">
          <children>
             <Text layoutX="41.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A kezdő játékos az első lépésben bármelyik érmét választhatja. Az első érme eltávolításával az érmegyűrű egy érmesorrá nyílik szét. A továbbiakban csak az érmesor két végén levő érméket lehet elvenni." wrappingWidth="225.5341796875" />
             <Button layoutX="246.0" layoutY="174.0" mnemonicParsing="false" onAction="#back_Game" text="Vissza" />

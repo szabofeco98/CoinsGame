@@ -27,9 +27,9 @@ public class FXMLController {
     @FXML
     private GridPane grid;
     @FXML
-    private Pane Main_menu, Pop_up_Menu,RankingPane,help_Menu;
+    private Pane mainMenu, popUpMenu,RankingPane, helpMenu;
     @FXML
-    TextField get_name1,get_name2;
+    TextField getName1, getName2;
 
 
     @FXML
@@ -37,9 +37,9 @@ public class FXMLController {
         int buttonindex = getbutton();
         error.setText("");
 
-        if(!state.isgoal(buttons)) {
-            if (state.avaliable(buttonindex)) {
-                state.put(buttonindex);
+        if(!state.isgoal()) {
+            if (state.available(buttonindex)) {
+                state.setPlayerScore(buttonindex);
                 if (buttons.size() == 12) {
                     firststep(buttonindex);
 
@@ -52,25 +52,25 @@ public class FXMLController {
         else {
             endGame(buttonindex);
         }
-        gamerscore1.setText(state.score1+"");
-        gamerscore2.setText(state.score2+"");
+        gamerscore1.setText(state.firstPlayerScore +"");
+        gamerscore2.setText(state.secondPlayerScore +"");
 
 
     }
 
     public void startButton(ActionEvent actionEvent) {
-        state.firstGamer =get_name1.getText().replaceAll("\\s+", "");
-        state.secondGamer =get_name2.getText().replaceAll("\\s+", "");
+        state.firstGamer = getName1.getText().replaceAll("\\s+", "");
+        state.secondGamer = getName2.getText().replaceAll("\\s+", "");
         if(!state.firstGamer.isEmpty() && !state.secondGamer.isEmpty() && !state.firstGamer.equals(state.secondGamer)) {
             gamer1.setText(state.firstGamer);
             gamer2.setText(state.secondGamer);
             grid.setVisible(true);
-            Main_menu.setVisible(false);
+            mainMenu.setVisible(false);
         }
     }
 
     public void restart(ActionEvent actionEvent) {
-        Pop_up_Menu.setVisible(false);
+        popUpMenu.setVisible(false);
         grid.setOpacity(1);
         swap();
         gamer1.setText(state.firstGamer);
@@ -83,21 +83,21 @@ public class FXMLController {
     }
 
     public void score(ActionEvent actionEvent) {
-        Main_menu.setVisible(false);
+        mainMenu.setVisible(false);
         RankingPane.setVisible(true);
         set_Rank();
     }
 
     public void back(ActionEvent actionEvent) {
-        Main_menu.setVisible(true);
+        mainMenu.setVisible(true);
         RankingPane.setVisible(false);
         ranklist.getItems().clear();
     }
 
     public void main_menu(ActionEvent actionEvent) {
-        Pop_up_Menu.setVisible(false);
+        popUpMenu.setVisible(false);
         grid.setVisible(false);
-        Main_menu.setVisible(true);
+        mainMenu.setVisible(true);
         grid.setOpacity(1);
         initialize();
     }
@@ -107,12 +107,12 @@ public class FXMLController {
 
     public void help(ActionEvent actionEvent) {
         grid.setOpacity(0.1);
-        help_Menu.setVisible(true);
+        helpMenu.setVisible(true);
     }
 
     public void back_Game(ActionEvent actionEvent) {
         grid.setOpacity(1);
-        help_Menu.setVisible(false);
+        helpMenu.setVisible(false);
     }
 
     public void initialize() {
@@ -149,13 +149,13 @@ public class FXMLController {
     }
 
     public void endGame(int buttonindex){
-        state.put(buttonindex);
+        state.setPlayerScore(buttonindex);
         buttons.get(buttonindex).setDisable(true);
         buttons.remove(buttonindex).setOpacity(0.4);
         grid.setOpacity(0.5);
-        Pop_up_Menu.setVisible(true);
-        String winner=state.score1>state.score2 ? state.firstGamer :
-                state.score1<state.score2 ? state.secondGamer :"Döntetlen";
+        popUpMenu.setVisible(true);
+        String winner=state.firstPlayerScore >state.secondPlayerScore ? state.firstGamer :
+                state.firstPlayerScore <state.secondPlayerScore ? state.secondGamer :"Döntetlen";
         this.winner.setText(winner);
         state.dataset(winner);
     }
@@ -170,7 +170,7 @@ public class FXMLController {
     public void firststep(int buttonindex){
         buttons.get(buttonindex).setOpacity(0.4);
         buttons.get(buttonindex).setDisable(true);
-        buttons = State.setlist2(buttonindex, buttons);
+        buttons = State.setlist(buttonindex, buttons);
     }
 
     public void otherstep(int buttonindex){
