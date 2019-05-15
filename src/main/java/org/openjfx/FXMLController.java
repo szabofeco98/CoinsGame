@@ -43,20 +43,17 @@ public class FXMLController {
                 state.setPlayerScore(buttonindex);
                 if (buttons.size() == 12) {
                     firststep(buttonindex);
-
-                } else {
-                    otherstep(buttonindex);
                 }
+                else otherstep(buttonindex);
             }
             else error.setText("rossz lépés");
         }
         else {
             endGame(buttonindex);
         }
+
         gamerscore1.setText(state.firstPlayerScore +"");
         gamerscore2.setText(state.secondPlayerScore +"");
-
-
     }
 
     public void startButton(ActionEvent actionEvent) {
@@ -96,7 +93,9 @@ public class FXMLController {
         ranklist.getItems().clear();
     }
 
-    public void main_menu(ActionEvent actionEvent) {
+    public void goToMainMenu(ActionEvent actionEvent) {
+        getName1.setText("");
+        getName2.setText("");
         popUpMenu.setVisible(false);
         grid.setVisible(false);
         mainMenu.setVisible(true);

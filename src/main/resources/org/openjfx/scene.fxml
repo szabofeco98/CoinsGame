@@ -19,12 +19,12 @@
     <children>
       <GridPane fx:id="grid" alignment="CENTER" focusTraversable="true" layoutX="40.0" layoutY="14.0" prefHeight="389.0" prefWidth="591.0" visible="false">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="88.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="0.0" prefWidth="87.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="74.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="105.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="79.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="79.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="89.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="0.0" prefWidth="77.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="90.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="76.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.0" minWidth="10.0" prefWidth="86.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="79.0" />
         </columnConstraints>
         <rowConstraints>
@@ -54,25 +54,21 @@
             <Label fx:id="gamer1" prefHeight="16.0" prefWidth="73.0" text="1.játékos: " GridPane.rowIndex="7" />
             <Label fx:id="gamer2" prefHeight="16.0" prefWidth="71.0" text="2.játékos: " GridPane.rowIndex="8" />
             <Label fx:id="error" prefHeight="40.0" prefWidth="85.0" textAlignment="CENTER" textFill="RED" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <MenuButton fx:id="menu" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Menu">
+            <MenuButton fx:id="menu" mnemonicParsing="false" prefHeight="25.0" prefWidth="74.0" text="Menu">
               <items>
                   <MenuItem fx:id="menuexit" mnemonicParsing="false" onAction="#exit" text="Kilépés" />
                 <MenuItem fx:id="help" mnemonicParsing="false" onAction="#help" text="Segitség" />
-                  <MenuItem mnemonicParsing="false" onAction="#main_menu" text="Fő menü" />
+                  <MenuItem mnemonicParsing="false" onAction="#goToMainMenu" text="Fő menü" />
               </items>
             </MenuButton>
             <Label fx:id="gamerscore1" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label fx:id="gamerscore2" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <Label fx:id="nextPlayer" prefHeight="33.0" prefWidth="134.0" style="-fx-alignment: center;" GridPane.columnIndex="4">
+            <Label fx:id="nextPlayer" prefHeight="33.0" prefWidth="134.0" style="-fx-alignment: center;" wrapText="true" GridPane.columnIndex="2">
                <font>
-                  <Font size="11.0" />
+                  <Font size="12.0" />
                </font>
             </Label>
-            <Label prefHeight="38.0" prefWidth="106.0" style="-fx-alignment: center;" text="Következő játékos" GridPane.columnIndex="3">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Label>
+            <Label prefHeight="38.0" prefWidth="68.0" style="-fx-alignment: center;" text="Következő játékos:" wrapText="true" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <Pane fx:id="mainMenu" focusTraversable="true" layoutX="133.0" layoutY="58.0" prefHeight="317.0" prefWidth="404.0">
@@ -83,6 +79,7 @@
             <TextField id="get_name2" fx:id="getName2" layoutX="186.0" layoutY="114.0" prefHeight="26.0" prefWidth="130.0" />
             <Button id="start" fx:id="start" layoutX="144.0" layoutY="175.0" mnemonicParsing="false" onAction="#startButton" prefHeight="26.0" prefWidth="80.0" text="Játék!" />
             <Button id="scores" fx:id="scores" layoutX="146.0" layoutY="225.0" mnemonicParsing="false" onAction="#score" prefHeight="26.0" prefWidth="80.0" text="Ranglista" />
+            <Button fx:id="exit1" layoutX="144.0" layoutY="278.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="80.0" text="Kilép" />
          </children>
       </Pane>
       <Pane fx:id="popUpMenu" focusTraversable="true" layoutX="202.0" layoutY="81.0" prefHeight="255.0" prefWidth="243.0" visible="false">
@@ -93,7 +90,7 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
-            <Button fx:id="main_menu" layoutX="86.0" layoutY="153.0" mnemonicParsing="false" onAction="#main_menu" text="Főmenü" />
+            <Button fx:id="main_menu" layoutX="86.0" layoutY="153.0" mnemonicParsing="false" onAction="#goToMainMenu" text="Főmenü" />
 
          </children>
       </Pane>
