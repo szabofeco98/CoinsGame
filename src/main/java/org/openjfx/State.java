@@ -138,8 +138,8 @@ public class State {
     public void dataset(String winner){
         Gamer gamer1= Gamer.builder().user_name(firstGamer).build();
         Gamer gamer2= Gamer.builder().user_name(secondGamer).build();
-        gamer1.setScore(set_User_Score(winner,gamer1));
-        gamer2.setScore(set_User_Score(winner,gamer2));
+        gamer1.setScore(setUserScore(winner,gamer1));
+        gamer2.setScore(setUserScore(winner,gamer2));
         gamer1=itwas(gamer1);
         gamer2=itwas(gamer2);
 
@@ -177,7 +177,7 @@ public class State {
      * @return {@code 0}Ha nem ő a győztes játékos,
      * {@code 1}Ha ő a győztes játékos
      */
-    public int set_User_Score(String winner, Gamer gamer){
+    public int setUserScore(String winner, Gamer gamer){
         return  (winner.equals(gamer.getUser_name())) ?1:0;
     }
 

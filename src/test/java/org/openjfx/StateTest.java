@@ -12,35 +12,29 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 class StateTest {
 
-
-
-    private void assertSetPlayerScore(State state,int actuall,int sum) {
-        state.setPlayerScore(actuall);
-        int sumnew= state.coins.stream().reduce((x, y) -> x + y).get();
-        assertAll(
-                ()->assertEquals(sum,sumnew+state.firstPlayerScore+state.secondPlayerScore),
-                ()->assertEquals(sum-state.firstPlayerScore,sumnew+state.secondPlayerScore),
-                ()->assertEquals(sum-state.secondPlayerScore,sumnew+state.firstPlayerScore)
-        );
-
-    }
-
-
     @Test
-    void setPlayerScore() {
+    void testSetPlayerScore() {
         State state=new State();
-        int sum= state.coins.stream().reduce((x, y) -> x + y).get();
-        assertSetPlayerScore(state,2,sum);
-        assertSetPlayerScore(state,2,sum);
-        assertSetPlayerScore(state,1,sum);
-        assertSetPlayerScore(state,4,sum);
-        assertSetPlayerScore(state,2,sum);
+        int sum1=0;
+        int sum2=0;
+
+        sum1+=state.coins.get(3);
+        state.setPlayerScore(3);
+        assertEquals(state.firstPlayerScore,sum1);
+        sum2+=state.coins.get(0);
+        state.setPlayerScore(0);
+        assertEquals(state.secondPlayerScore,sum2);
+        sum1+=state.coins.get(3);
+        state.setPlayerScore(3);
+        assertEquals(state.firstPlayerScore,sum1);
+        sum2+=state.coins.get(0);
+        state.setPlayerScore(0);
+        assertEquals(state.secondPlayerScore,sum2);
+
     }
 
-
-
     @Test
-    void setlist() {
+    void testSetlist() {
         List<Integer> test=new ArrayList<>();
 
         for(int i=0;i<8;i++){
@@ -59,10 +53,8 @@ class StateTest {
 
     }
 
-
-
     @Test
-    void itwas() {
+    void testItwas() {
         State state=new State();
         Gamer gamer1= Gamer.builder().user_name("feco").build();
         Gamer test=state.itwas(gamer1);
@@ -75,5 +67,18 @@ class StateTest {
         assertEquals(gamer2,test);
     }
 
+    @Test
+    void testSetUserScore(){
+        String winner="feci";
+        Gamer gamer1=Gamer.builder().user_name(winner).build();
+        State state=new State();
+
+        gamer1.setScore(state.setUserScore(winner,gamer1));
+        assertEquals(1,gamer1.getScore());
+        Gamer gamer2=Gamer.builder().user_name("loser").build();
+        gamer2.setScore(state.setUserScore(winner,gamer2));
+        assertEquals(0,gamer2.getScore());
+
+    }
 
 }
