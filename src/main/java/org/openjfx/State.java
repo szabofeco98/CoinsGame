@@ -76,7 +76,7 @@ public class State {
      * @param actuall a kiválasztott elem helye a coins listában
      */
     public  void setPlayerScore(int actuall){
-        if (this.coins.size()==12){
+        if (roundnumber==0){
             firstPlayerScore +=coins.get(actuall);
             coins= setlist(actuall,coins);
         }
@@ -105,17 +105,7 @@ public class State {
      * {@code false} Minden más esetben
      */
     public boolean available(int actuall){
-        if(this.coins.size()==12){
-            log.debug("alkalmazható");
-            return true;
-        }
-        else if(actuall==0 || actuall==this.coins.size()-1){
-            log.debug("alkalmazható");
-            return true;}
-        else {
-            log.warn("nem alkalmazható");
-            return false;
-        }
+        return roundnumber==0||actuall==0 || actuall==coins.size()-1;
     }
 
     /**
@@ -188,8 +178,7 @@ public class State {
      * {@code 1}Ha ő a győztes játékos
      */
     public int set_User_Score(String winner, Gamer gamer){
-        int user_score= (winner.equals(gamer.getUser_name())) ?1:0;
-        return user_score;
+        return  (winner.equals(gamer.getUser_name())) ?1:0;
     }
 
     /**
