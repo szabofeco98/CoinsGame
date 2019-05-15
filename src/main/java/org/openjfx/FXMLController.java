@@ -23,7 +23,7 @@ public class FXMLController {
     @FXML
     TableColumn<Object, Object> listscore;
     @FXML
-    Label winner,error,gamer1,gamer2,gamerscore1,gamerscore2;
+    Label winner,error,gamer1,gamer2,gamerscore1,gamerscore2,nextPlayer;
     @FXML
     private GridPane grid;
     @FXML
@@ -39,6 +39,7 @@ public class FXMLController {
 
         if(!state.isgoal()) {
             if (state.available(buttonindex)) {
+                setnextPlayer();
                 state.setPlayerScore(buttonindex);
                 if (buttons.size() == 12) {
                     firststep(buttonindex);
@@ -66,6 +67,7 @@ public class FXMLController {
             gamer2.setText(state.secondGamer);
             grid.setVisible(true);
             mainMenu.setVisible(false);
+            nextPlayer.setText(state.firstGamer);
         }
     }
 
@@ -102,8 +104,6 @@ public class FXMLController {
         initialize();
     }
 
-    public void save(ActionEvent actionEvent) {
-    }
 
     public void help(ActionEvent actionEvent) {
         grid.setOpacity(0.1);
@@ -178,6 +178,12 @@ public class FXMLController {
         buttons.remove(buttonindex).setOpacity(0.4);
     }
 
+    public void setnextPlayer(){
+        if(state.roundnumber%2==0)
+            nextPlayer.setText(state.secondGamer);
+        else nextPlayer.setText(state.firstGamer);
+
+    }
 
 
 }

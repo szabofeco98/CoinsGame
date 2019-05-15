@@ -9,6 +9,11 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Általános JPA DAO osztály, amely JPA támogatást nyújt a entitásosztály számára
+ *
+ * @param <T> az entitásosztály típusa
+ */
 public abstract class GenericJpaDao<T> {
 
     protected Class<T> entityClass;

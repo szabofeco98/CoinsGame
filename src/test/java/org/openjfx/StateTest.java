@@ -1,8 +1,9 @@
 package org.openjfx;
 
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.openjfx.modell.Gamer;
+import org.openjfx.modell.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
+@Builder
 class StateTest {
 
     @Test
@@ -55,6 +57,7 @@ class StateTest {
 
     @Test
     void testItwas() {
+
         State state=new State();
         Gamer gamer1= Gamer.builder().user_name("feco").build();
         Gamer test=state.itwas(gamer1);

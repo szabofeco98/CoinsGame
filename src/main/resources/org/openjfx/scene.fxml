@@ -22,14 +22,14 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="88.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="0.0" prefWidth="87.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="74.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.0" minWidth="10.0" prefWidth="91.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="74.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="67.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="110.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="105.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="79.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="79.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="79.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="24.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="38.0" minHeight="0.0" prefHeight="38.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
             <RowConstraints fillHeight="false" maxHeight="48.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
@@ -57,13 +57,22 @@
             <MenuButton fx:id="menu" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Menu">
               <items>
                   <MenuItem fx:id="menuexit" mnemonicParsing="false" onAction="#exit" text="Kilépés" />
-                <MenuItem fx:id="Save" mnemonicParsing="false" onAction="#save" text="Mentés" />
                 <MenuItem fx:id="help" mnemonicParsing="false" onAction="#help" text="Segitség" />
                   <MenuItem mnemonicParsing="false" onAction="#main_menu" text="Fő menü" />
               </items>
             </MenuButton>
             <Label fx:id="gamerscore1" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label fx:id="gamerscore2" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label fx:id="nextPlayer" prefHeight="33.0" prefWidth="134.0" style="-fx-alignment: center;" GridPane.columnIndex="4">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label prefHeight="38.0" prefWidth="106.0" style="-fx-alignment: center;" text="Következő játékos" GridPane.columnIndex="3">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
       <Pane fx:id="mainMenu" focusTraversable="true" layoutX="133.0" layoutY="58.0" prefHeight="317.0" prefWidth="404.0">

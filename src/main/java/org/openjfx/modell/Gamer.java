@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * Entitás osztály amely a játékosokat reprezentálja az adatbázisban
+ * Entitás osztály amely a játékosokat reprezentálja az adatbázisban.
  */
 @Data
 @NoArgsConstructor
@@ -24,12 +23,12 @@ public class Gamer {
     long id;
 
     /**
-     * Játékos neve
+     * Játékos neve.
      */
     String user_name;
 
     /**
-     * Játékos pontszáma
+     * Játékos pontszáma.
      */
     int score;
 

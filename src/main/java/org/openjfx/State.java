@@ -64,7 +64,7 @@ public class State {
     /**
      *Vizsgálja hogy az aktuális állapot cél állapot.
      *
-     * @return {@code true} ha a coins lista mérete 1
+     * @return {@code true} ha a coins lista mérete 1.
      */
     public  boolean isgoal(){
         return coins.size()==1;
