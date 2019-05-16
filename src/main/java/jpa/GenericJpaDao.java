@@ -1,7 +1,6 @@
 package jpa;
 
 import com.google.inject.persist.Transactional;
-import org.openjfx.modell.StateDao;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

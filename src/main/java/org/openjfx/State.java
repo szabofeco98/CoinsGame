@@ -3,9 +3,11 @@ package org.openjfx;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import guice.PersistenceModule;
-import org.openjfx.modell.StateDao;
+import org.openjfx.modell.GamerDao;
 import org.openjfx.modell.Gamer;
 import lombok.extern.slf4j.Slf4j;
+import org.openjfx.modell.save.SavedGamer;
+import org.openjfx.modell.save.SavedGamerDao;
 
 
 import java.util.ArrayList;
@@ -16,14 +18,20 @@ import java.util.List;
  */
 @Slf4j
 public class State {
-    static Injector injector = Guice.createInjector(new PersistenceModule("test"));
+    static Injector injector = Guice.createInjector(new PersistenceModule("Gamer"));
 
-    static StateDao stateDao = injector.getInstance(StateDao.class);
+    static GamerDao gamerDao = injector.getInstance(GamerDao.class);
+
+    static SavedGamerDao saveDao = injector.getInstance(SavedGamerDao.class);
+
 
     /**
      * Az érméket tartalmazó lista.
      */
     public List<Integer> coins=new ArrayList<>();
+
+    public List<Integer> savedCoins;
+
 
     /**
      * Az első játékos pontszáma.
@@ -57,8 +65,9 @@ public class State {
     public State(){
         for (int i=0;i<12;i++){
             int random = (int )(Math.random() * 9 + 1);
-            this.coins.add(random);
+            coins.add(random);
         }
+        savedCoins=coins;
     }
 
     /**
@@ -67,7 +76,7 @@ public class State {
      * @return {@code true} ha a coins lista mérete 1.
      */
     public  boolean isgoal(){
-        return coins.size()==1;
+        return roundnumber==11;
     }
 
     /**
@@ -144,9 +153,9 @@ public class State {
         gamer2=itwas(gamer2);
 
         if(gamer1!=null)
-          stateDao.persist(gamer1);
+          gamerDao.persist(gamer1);
         if(gamer2!=null)
-           stateDao.persist(gamer2);
+           gamerDao.persist(gamer2);
 
     }
 
@@ -158,11 +167,11 @@ public class State {
      * {@code gamer}Ha a játékos még nem szerepelt az adatbázisban
      */
     public Gamer itwas(Gamer gamer){
-        List<Gamer> database=stateDao.findAll();
+        List<Gamer> database= gamerDao.findAll();
         for (Gamer std:database) {
             if (std.getUser_name().equals(gamer.getUser_name())) {
                 std.setScore(std.getScore() + gamer.getScore());
-                stateDao.update(std);
+                gamerDao.update(std);
                 return null;
             }
         }
@@ -187,8 +196,101 @@ public class State {
      * @return Pontszám alapján rendezett lista.
      */
     public  List<Gamer> ranklist(){
-        return stateDao.rank();
+        return gamerDao.rank();
     }
+
+    /**
+     * Menti az adatbázisba az aktuális játék állapotot.
+     *
+     * @param buttonNames még nem használt gombok.
+     */
+    public void saveGamer(List<String> buttonNames){
+        deleteTable();
+        SavedGamer savedGamer= SavedGamer.builder().first_Score(firstPlayerScore)
+                .buttons(buttonNames).second_Score(secondPlayerScore).first_User(firstGamer)
+                .second_User(secondGamer).round(roundnumber).allCoins(savedCoins)
+                .build();
+
+        log.debug("mentem az összes coint :"+savedGamer.getAllCoins());
+        saveDao.persist(savedGamer);
+    }
+
+    /**
+     * Törli mentett játék állapotot az adatbázisból,
+     *
+     */
+    public void deleteTable(){
+        List<SavedGamer> database= saveDao.findAll();
+        for (SavedGamer sg:database) {
+            saveDao.remove(sg);
+        }
+    }
+
+    /**
+     * Betölti az aktuális játékba az adatbázisban tárolt
+     * állapotot.
+     *
+     * @return betöltött új állapot.
+     */
+    public static State load (){
+        SavedGamer loaded=saveDao.findAll().get(0);
+        State state=new State();
+
+        state.firstPlayerScore=loaded.getFirst_Score();
+
+        state.secondPlayerScore=loaded.getSecond_Score();
+
+        state.savedCoins=loaded.getAllCoins();
+
+        state.firstGamer=loaded.getFirst_User();
+
+        state.secondGamer=loaded.getSecond_User();
+
+        state.roundnumber=loaded.getRound();
+
+        state.coins=state.loadUnusedCoin();
+
+        log.debug("\n"+state.toString()+"\nsavedButton");
+        return state;
+    }
+
+    /**
+     * Vizsgálja hogy van-e tárolt elem az adatbázisban.
+     *
+     * @return {@code true}Ha van,{@code false}Ha nincsen.
+     */
+    public boolean savedIsPresent(){
+        return !saveDao.findAll().isEmpty();
+    }
+
+    /**
+     * Vizsgálja hogy a mentett játékban milyen érméket
+     * vett el a felhasználó.
+     *
+     * @return Még nem elvett érmék.
+     */
+    public  List loadUnusedCoin(){
+        List<Integer> coinsNew=new ArrayList<>();
+        for (String s:getButtonsId()){
+            int index=Integer.parseInt(s.substring(4));
+            for (int i=0;i<savedCoins.size();i++){
+                if(index==i) coinsNew.add(savedCoins.get(i));
+            }
+        }
+        log.debug(coinsNew.toString());
+        return coinsNew;
+    }
+
+    public List<String> getButtonsId(){
+        return saveDao.findAll().get(0).getButtons();
+    }
+
+    @Override
+    public String toString(){
+        return firstGamer+": "+firstPlayerScore+", "+secondGamer+": "+secondPlayerScore
+                +"\n unusedCoins: "+coins+"\n allcoins: "+savedCoins;
+    }
+
 
 }
 

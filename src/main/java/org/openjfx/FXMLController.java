@@ -10,18 +10,26 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import org.openjfx.modell.Gamer;
 
+import java.nio.file.LinkOption;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FXMLController {
     State state;
     List<ToggleButton> buttons;
+    List<String> buttonNames;
+    List<ToggleButton> loadedButton;
+
     @FXML
     TableView<Gamer> ranklist;
     @FXML
     TableColumn<Object, Object> name;
     @FXML
     TableColumn<Object, Object> listscore;
+
+
+
+
     @FXML
     Label winner,error,gamer1,gamer2,gamerscore1,gamerscore2,nextPlayer;
     @FXML
@@ -56,7 +64,9 @@ public class FXMLController {
         gamerscore2.setText(state.secondPlayerScore +"");
     }
 
+    @FXML
     public void startButton(ActionEvent actionEvent) {
+        initialize();
         state.firstGamer = getName1.getText().replaceAll("\\s+", "");
         state.secondGamer = getName2.getText().replaceAll("\\s+", "");
         if(!state.firstGamer.isEmpty() && !state.secondGamer.isEmpty() && !state.firstGamer.equals(state.secondGamer)) {
@@ -65,9 +75,12 @@ public class FXMLController {
             grid.setVisible(true);
             mainMenu.setVisible(false);
             nextPlayer.setText(state.firstGamer);
+            error.setText("");
+            grid.setOpacity(1);
         }
     }
 
+    @FXML
     public void restart(ActionEvent actionEvent) {
         popUpMenu.setVisible(false);
         grid.setOpacity(1);
@@ -75,40 +88,65 @@ public class FXMLController {
         gamer1.setText(state.firstGamer);
         gamer2.setText(state.secondGamer);
         initialize();
+        state.firstGamer=gamer1.getText();
+        state.secondGamer=gamer2.getText();
+        state.roundnumber=0;
     }
 
+    @FXML
     public void exit(ActionEvent actionEvent) {
         System.exit(0);
     }
 
+    @FXML
     public void score(ActionEvent actionEvent) {
         mainMenu.setVisible(false);
         RankingPane.setVisible(true);
         set_Rank();
     }
 
+    @FXML
     public void back(ActionEvent actionEvent) {
         mainMenu.setVisible(true);
         RankingPane.setVisible(false);
         ranklist.getItems().clear();
     }
 
+    @FXML
     public void goToMainMenu(ActionEvent actionEvent) {
         getName1.setText("");
         getName2.setText("");
         popUpMenu.setVisible(false);
         grid.setVisible(false);
         mainMenu.setVisible(true);
-        grid.setOpacity(1);
-        initialize();
     }
 
+    @FXML
+    public void save(ActionEvent actionEvent) {
+        buttonNames=new ArrayList<>();
+        for(ToggleButton tgb:buttons){
+            buttonNames.add(tgb.getId());
+        }
+        state.saveGamer(buttonNames);
+    }
 
+    @FXML
+    public void load(ActionEvent actionEvent)  {
+        if(state.savedIsPresent()){
+            state=State.load();
+            deactivateButton();
+            buttons=activateButton();
+            goToGame();
+        }
+    }
+
+    @FXML
     public void help(ActionEvent actionEvent) {
         grid.setOpacity(0.1);
         helpMenu.setVisible(true);
     }
 
+    @FXML
     public void back_Game(ActionEvent actionEvent) {
         grid.setOpacity(1);
         helpMenu.setVisible(false);
@@ -116,9 +154,7 @@ public class FXMLController {
 
     public void initialize() {
         state=new State();
-        buttons= new ArrayList<>();
-        grid.getChildren().filtered(node -> node instanceof ToggleButton)
-                      .forEach(node -> buttons.add((ToggleButton) node));
+        buttons= getAllToggleButton();
 
         for(int i=0;i<12;i++){
             buttons.get(i).setText(state.coins.get(i).toString());
@@ -130,12 +166,21 @@ public class FXMLController {
         gamerscore2.setText("0");
     }
 
+    public List getAllToggleButton(){
+        List<ToggleButton> Togglebuttons= new ArrayList<>();
+        grid.getChildren().filtered(node -> node instanceof ToggleButton)
+                .forEach(node -> Togglebuttons.add((ToggleButton) node));
+        return Togglebuttons;
+    }
+
     public void set_Rank(){
         ObservableList<Gamer> obslist=FXCollections.observableList(state.ranklist());
         name.setCellValueFactory(new PropertyValueFactory<>("user_name"));
         listscore.setCellValueFactory(new PropertyValueFactory<>("score"));
         ranklist.setItems(obslist);
     }
+
+
 
     public int getbutton(){
         for (int i=0;i<this.buttons.size();i++){
@@ -157,6 +202,7 @@ public class FXMLController {
                 state.firstPlayerScore <state.secondPlayerScore ? state.secondGamer :"Döntetlen";
         this.winner.setText(winner);
         state.dataset(winner);
+        state.deleteTable();
     }
 
     public void swap(){
@@ -183,6 +229,41 @@ public class FXMLController {
         else nextPlayer.setText(state.firstGamer);
 
     }
+
+    public void goToGame(){
+
+        mainMenu.setVisible(false);
+        grid.setVisible(true);
+        gamer1.setText(state.firstGamer);
+        gamer2.setText(state.secondGamer);
+        gamerscore1.setText(state.firstPlayerScore+"");
+        gamerscore2.setText(state.secondPlayerScore+"");
+        error.setText("");
+    }
+
+    public void deactivateButton(){
+        buttons= getAllToggleButton();
+        for(int i=0;i<12;i++){
+            buttons.get(i).setText(state.savedCoins.get(i).toString());
+            buttons.get(i).setDisable(true);
+            buttons.get(i).setOpacity(0.4);
+        }
+    }
+
+    public List activateButton(){
+        List<ToggleButton> buttonsNew=new ArrayList<>();
+        for(String s:state.getButtonsId()){
+            for (ToggleButton tgb:buttons){
+                if(tgb.getId().equals(s)){
+                    tgb.setDisable(false);
+                    tgb.setOpacity(1);
+                    buttonsNew.add(tgb);
+                }
+            }
+        }
+        return buttonsNew;
+    }
+
 
 
 }

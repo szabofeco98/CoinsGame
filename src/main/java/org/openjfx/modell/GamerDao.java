@@ -7,9 +7,8 @@ import java.util.List;
 /**
  * DAO osztályon keresztül érjük el a{@link Gamer} entitást.
  */
-public class StateDao extends GenericJpaDao<Gamer> {
-    public StateDao() { super(Gamer.class);
-    }
+public class GamerDao extends GenericJpaDao<Gamer> {
+    public GamerDao() { super(Gamer.class); }
 
     @Transactional
     public List<Gamer> rank() {

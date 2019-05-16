@@ -59,6 +59,7 @@
                   <MenuItem fx:id="menuexit" mnemonicParsing="false" onAction="#exit" text="Kilépés" />
                 <MenuItem fx:id="help" mnemonicParsing="false" onAction="#help" text="Segitség" />
                   <MenuItem mnemonicParsing="false" onAction="#goToMainMenu" text="Fő menü" />
+                  <MenuItem fx:id="save" mnemonicParsing="false" onAction="#save" text="Mentés" />
               </items>
             </MenuButton>
             <Label fx:id="gamerscore1" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
@@ -77,9 +78,10 @@
             <Label layoutX="58.0" layoutY="114.0" prefHeight="25.0" prefWidth="106.0" text="2 játékos neve:" />
             <TextField id="get_name1" fx:id="getName1" layoutX="186.0" layoutY="74.0" prefHeight="26.0" prefWidth="130.0" />
             <TextField id="get_name2" fx:id="getName2" layoutX="186.0" layoutY="114.0" prefHeight="26.0" prefWidth="130.0" />
-            <Button id="start" fx:id="start" layoutX="144.0" layoutY="175.0" mnemonicParsing="false" onAction="#startButton" prefHeight="26.0" prefWidth="80.0" text="Játék!" />
-            <Button id="scores" fx:id="scores" layoutX="146.0" layoutY="225.0" mnemonicParsing="false" onAction="#score" prefHeight="26.0" prefWidth="80.0" text="Ranglista" />
+            <Button id="start" fx:id="start" layoutX="144.0" layoutY="159.0" mnemonicParsing="false" onAction="#startButton" prefHeight="26.0" prefWidth="80.0" text="Játék!" />
+            <Button id="scores" fx:id="scores" layoutX="144.0" layoutY="199.0" mnemonicParsing="false" onAction="#score" prefHeight="26.0" prefWidth="80.0" text="Ranglista" />
             <Button fx:id="exit1" layoutX="144.0" layoutY="278.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="80.0" text="Kilép" />
+            <Button fx:id="goToLoadMenu" layoutX="146.0" layoutY="239.0" mnemonicParsing="false" onAction="#load" prefHeight="25.0" prefWidth="76.0" text="Betölt" />
          </children>
       </Pane>
       <Pane fx:id="popUpMenu" focusTraversable="true" layoutX="202.0" layoutY="81.0" prefHeight="255.0" prefWidth="243.0" visible="false">

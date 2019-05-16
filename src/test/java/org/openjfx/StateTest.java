@@ -84,6 +84,22 @@ class StateTest {
 
     }
 
+    @Test
+    void testAvailable(){
+        State state=new State();
+        state.roundnumber=0;
+        List<Integer> test=new ArrayList<>();
+        for(int i=0;i<8;i++){
+            test.add(i);
+        }
+        state.coins=test;
+        state.roundnumber=0;
+        assertTrue(state.available(3));
+        state.roundnumber=2;
+        assertTrue(state.available(0));
+        assertTrue(state.available(7));
+        assertFalse(state.available(3));
 
+    }
 
 }
