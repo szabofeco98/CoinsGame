@@ -21,28 +21,26 @@ class StateTest {
 
         sum1+=state.coins.get(3);
         state.setPlayerScore(3);
-        assertEquals(state.firstPlayerScore,sum1);
+        assertEquals(state.firstPLayer.playerScore,sum1);
         sum2+=state.coins.get(0);
         state.setPlayerScore(0);
-        assertEquals(state.secondPlayerScore,sum2);
+        assertEquals(state.secondPlayer.playerScore,sum2);
         sum1+=state.coins.get(3);
         state.setPlayerScore(3);
-        assertEquals(state.firstPlayerScore,sum1);
+        assertEquals(state.firstPLayer.playerScore,sum1);
         sum2+=state.coins.get(0);
         state.setPlayerScore(0);
-        assertEquals(state.secondPlayerScore,sum2);
+        assertEquals(state.secondPlayer.playerScore,sum2);
 
     }
 
     @Test
     void testSetlist() {
-        List<Integer> test=new ArrayList<>();
+        State state=new State(8);
+        List<Integer> test;
+        log.debug(state.coins.toString());
+        test=state.coins;
 
-        for(int i=0;i<8;i++){
-            test.add(i);
-        }
-
-        log.debug(test.toString());
         test=State.setlist(4,test);
         log.debug(test.toString());
         assertEquals(5,test.get(0).intValue());
@@ -56,16 +54,10 @@ class StateTest {
 
     @Test
     void testAvailable(){
-        State state=new State();
-        state.roundnumber=0;
-        List<Integer> test=new ArrayList<>();
-        for(int i=0;i<8;i++){
-            test.add(i);
-        }
-        state.coins=test;
-        state.roundnumber=0;
+        State state=new State(8,0);
+        state.roundNumber =0;
         assertTrue(state.available(3));
-        state.roundnumber=2;
+        state.roundNumber =2;
         assertTrue(state.available(0));
         assertTrue(state.available(7));
         assertFalse(state.available(3));

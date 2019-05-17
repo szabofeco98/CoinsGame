@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import org.openjfx.modell.Gamer;
 
-import java.nio.file.LinkOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +17,6 @@ public class FXMLController {
     State state;
     Database database=new Database();
     List<ToggleButton> buttons;
-    List<String> buttonNames;
-    List<ToggleButton> loadedButton;
 
     @FXML
     TableView<Gamer> ranklist;
@@ -27,12 +24,10 @@ public class FXMLController {
     TableColumn<Object, Object> name;
     @FXML
     TableColumn<Object, Object> listscore;
-
-
     @FXML
     Label winner,error,gamer1,gamer2,gamerscore1,gamerscore2,nextPlayer;
     @FXML
-    private GridPane grid;
+    private GridPane gameMenu;
     @FXML
     private Pane mainMenu, popUpMenu,RankingPane, helpMenu;
     @FXML
@@ -59,37 +54,40 @@ public class FXMLController {
             endGame(buttonindex);
         }
 
-        gamerscore1.setText(state.firstPlayerScore +"");
-        gamerscore2.setText(state.secondPlayerScore +"");
+        gamerscore1.setText(state.firstPLayer.playerScore +"");
+        gamerscore2.setText(state.secondPlayer.playerScore +"");
     }
 
     @FXML
     public void startButton(ActionEvent actionEvent) {
         initialize();
-        state.firstGamer = getName1.getText().replaceAll("\\s+", "");
-        state.secondGamer = getName2.getText().replaceAll("\\s+", "");
-        if(!state.firstGamer.isEmpty() && !state.secondGamer.isEmpty() && !state.firstGamer.equals(state.secondGamer)) {
-            gamer1.setText(state.firstGamer);
-            gamer2.setText(state.secondGamer);
-            grid.setVisible(true);
+        state.firstPLayer.playerName = getName1.getText().replaceAll("\\s+", "");
+        state.secondPlayer.playerName = getName2.getText().replaceAll("\\s+", "");
+        String firstName=state.firstPLayer.playerName;
+        String secondName=state.secondPlayer.playerName;
+        if(!firstName.isEmpty() && !secondName.isEmpty()
+                    && !firstName.equals(secondName)) {
+            gamer1.setText(firstName);
+            gamer2.setText(secondName);
+            gameMenu.setVisible(true);
             mainMenu.setVisible(false);
-            nextPlayer.setText(state.firstGamer);
+            nextPlayer.setText(firstName);
             error.setText("");
-            grid.setOpacity(1);
+            gameMenu.setOpacity(1);
         }
     }
 
     @FXML
     public void restart(ActionEvent actionEvent) {
         popUpMenu.setVisible(false);
-        grid.setOpacity(1);
+        gameMenu.setOpacity(1);
         swap();
-        gamer1.setText(state.firstGamer);
-        gamer2.setText(state.secondGamer);
+        gamer1.setText(state.firstPLayer.playerName);
+        gamer2.setText(state.secondPlayer.playerName);
         initialize();
-        state.firstGamer=gamer1.getText();
-        state.secondGamer=gamer2.getText();
-        state.roundnumber=0;
+        state.firstPLayer.playerName=gamer1.getText();
+        state.secondPlayer.playerName=gamer2.getText();
+        state.roundNumber =0;
     }
 
     @FXML
@@ -116,39 +114,19 @@ public class FXMLController {
         getName1.setText("");
         getName2.setText("");
         popUpMenu.setVisible(false);
-        grid.setVisible(false);
+        gameMenu.setVisible(false);
         mainMenu.setVisible(true);
-    }
-
-
-    @FXML
-    public void save(ActionEvent actionEvent) {
-        buttonNames=new ArrayList<>();
-        for(ToggleButton tgb:buttons){
-            buttonNames.add(tgb.getId());
-        }
-        database.saveGamer(buttonNames,state);
-    }
-
-    @FXML
-    public void load(ActionEvent actionEvent)  {
-        if(database.savedIsPresent()){
-            state=Database.load();
-            deactivateButton();
-            buttons=activateButton();
-            goToGame();
-        }
     }
 
     @FXML
     public void help(ActionEvent actionEvent) {
-        grid.setOpacity(0.1);
+        gameMenu.setOpacity(0.1);
         helpMenu.setVisible(true);
     }
 
     @FXML
     public void back_Game(ActionEvent actionEvent) {
-        grid.setOpacity(1);
+        gameMenu.setOpacity(1);
         helpMenu.setVisible(false);
     }
 
@@ -168,7 +146,7 @@ public class FXMLController {
 
     public List getAllToggleButton(){
         List<ToggleButton> Togglebuttons= new ArrayList<>();
-        grid.getChildren().filtered(node -> node instanceof ToggleButton)
+        gameMenu.getChildren().filtered(node -> node instanceof ToggleButton)
                 .forEach(node -> Togglebuttons.add((ToggleButton) node));
         return Togglebuttons;
     }
@@ -196,20 +174,24 @@ public class FXMLController {
         state.setPlayerScore(buttonindex);
         buttons.get(buttonindex).setDisable(true);
         buttons.remove(buttonindex).setOpacity(0.4);
-        grid.setOpacity(0.5);
+        gameMenu.setOpacity(0.5);
         popUpMenu.setVisible(true);
-        String winner=state.firstPlayerScore >state.secondPlayerScore ? state.firstGamer :
-                state.firstPlayerScore <state.secondPlayerScore ? state.secondGamer :"Döntetlen";
+        int score1=state.firstPLayer.playerScore;
+        int score2=state.secondPlayer.playerScore;
+
+        String winner=score1 >score2 ? state.firstPLayer.playerName :
+                score1 <score2 ? state.secondPlayer.playerName :"Döntetlen";
         this.winner.setText(winner);
         database.dataset(winner,state);
         //Database.deleteTable();
     }
 
     public void swap(){
+
         String temp="";
-        temp=state.firstGamer;
-        state.firstGamer =state.secondGamer;
-        state.secondGamer =temp;
+        temp=state.firstPLayer.playerName;
+        state.firstPLayer.playerName =state.secondPlayer.playerName;
+        state.secondPlayer.playerName =temp;
     }
 
     public void firststep(int buttonindex){
@@ -224,47 +206,12 @@ public class FXMLController {
     }
 
     public void setnextPlayer(){
-        if(state.roundnumber%2==0)
-            nextPlayer.setText(state.secondGamer);
-        else nextPlayer.setText(state.firstGamer);
+        String firstGamer=state.firstPLayer.playerName;
+        String secondGamer=state.secondPlayer.playerName;
+        if(state.roundNumber %2!=0)
+            nextPlayer.setText(firstGamer);
+        else nextPlayer.setText(secondGamer);
 
     }
-
-    public void goToGame(){
-
-        mainMenu.setVisible(false);
-        grid.setVisible(true);
-        gamer1.setText(state.firstGamer);
-        gamer2.setText(state.secondGamer);
-        gamerscore1.setText(state.firstPlayerScore+"");
-        gamerscore2.setText(state.secondPlayerScore+"");
-        error.setText("");
-        setnextPlayer();
-    }
-
-    public void deactivateButton(){
-        buttons= getAllToggleButton();
-        for(int i=0;i<12;i++){
-            buttons.get(i).setText(state.savedCoins.get(i).toString());
-            buttons.get(i).setDisable(true);
-            buttons.get(i).setOpacity(0.4);
-        }
-    }
-
-    public List activateButton(){
-        List<ToggleButton> buttonsNew=new ArrayList<>();
-        for(String s:Database.getButtonsId()){
-            for (ToggleButton tgb:buttons){
-                if(tgb.getId().equals(s)){
-                    tgb.setDisable(false);
-                    tgb.setOpacity(1);
-                    buttonsNew.add(tgb);
-                }
-            }
-        }
-        return buttonsNew;
-    }
-
-
 
 }

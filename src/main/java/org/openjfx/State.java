@@ -1,13 +1,8 @@
 package org.openjfx;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import guice.PersistenceModule;
-import org.openjfx.modell.GamerDao;
-import org.openjfx.modell.Gamer;
+
 import lombok.extern.slf4j.Slf4j;
-import org.openjfx.modell.save.SavedGamer;
-import org.openjfx.modell.save.SavedGamerDao;
+
 
 
 import java.util.ArrayList;
@@ -23,35 +18,23 @@ public class State {
     /**
      * Az érméket tartalmazó lista.
      */
-    public List<Integer> coins=new ArrayList<>();
-
-    public List<Integer> savedCoins;
-
+     List<Integer> coins=new ArrayList<>();
 
     /**
-     * Az első játékos pontszáma.
+     * Az első játékos
      */
-    public int firstPlayerScore = 0;
+     Player firstPLayer=new Player();
 
     /**
-     *A második játékos pontszáma.
+     * A második játékos
      */
-    public int secondPlayerScore = 0;
+     Player secondPlayer=new Player();
 
     /**
      * Reprezentálja hogy melyik játékos következik.
      */
-    public int roundnumber = 0;
+     int roundNumber = 0;
 
-    /**
-     * Az első játékos neve.
-     */
-    public String firstGamer ;
-
-    /**
-     * A másodk játékos neve.
-     */
-    public String secondGamer ;
 
     /**
      * A coins listát tölti fel véletlen számokkal.
@@ -62,16 +45,28 @@ public class State {
             int random = (int )(Math.random() * 9 + 1);
             coins.add(random);
         }
-        savedCoins=coins;
     }
+
+     State(int listSize){
+        for (int i=0;i<listSize;i++){
+            coins.add(i);
+        }
+     }
+
+     State(int listSize,int roundNumber){
+        for (int i=0;i<listSize;i++){
+            coins.add(i);
+        }
+        this.roundNumber=roundNumber;
+     }
 
     /**
      *Vizsgálja hogy az aktuális állapot cél állapot.
      *
      * @return {@code true} ha a coins lista mérete 1.
      */
-    public  boolean isgoal(){
-        return roundnumber==11;
+      boolean isgoal(){
+        return roundNumber ==11;
     }
 
     /**
@@ -79,25 +74,24 @@ public class State {
      *
      * @param actuall a kiválasztott elem helye a coins listában
      */
-    public  void setPlayerScore(int actuall){
-        if (roundnumber==0){
-            firstPlayerScore +=coins.get(actuall);
+      void setPlayerScore(int actuall){
+        if (roundNumber ==0){
+            firstPLayer.playerScore +=coins.get(actuall);
             coins= setlist(actuall,coins);
         }
         else{
-            if(roundnumber%2==0){
-                firstPlayerScore +=coins.remove(actuall);
+            if(roundNumber %2==0){
+                firstPLayer.playerScore +=coins.remove(actuall);
                 log.debug(coins.toString());
             }
             else{
-                secondPlayerScore +=coins.remove(actuall);
+                secondPlayer.playerScore +=coins.remove(actuall);
                 log.debug(coins.toString());
             }
         }
 
-        log.debug(firstGamer +": "+ firstPlayerScore +" , "+ secondGamer +": "+ secondPlayerScore);
-        roundnumber++;
-    }
+        roundNumber++;
+     }
 
     /**
      * Meghatározza hogy a felhasználó által választott elem
@@ -108,9 +102,9 @@ public class State {
      * lista két végéről választ a felhasználó,
      * {@code false} Minden más esetben
      */
-    public boolean available(int actuall){
-        return roundnumber==0||actuall==0 || actuall==coins.size()-1;
-    }
+     boolean available(int actuall){
+        return roundNumber ==0||actuall==0 || actuall==coins.size()-1;
+     }
 
     /**
      *  A paraméterül kapott lista elemeinek megfelelő
@@ -122,7 +116,7 @@ public class State {
      * @param <T> A visszatérő lista típusa
      * @return A rendezett lista.
      */
-    public static <T> List setlist(int actuall, List list){
+     static <T> List setlist(int actuall, List list){
         List<T> coinsnew=new ArrayList<>();
         for(int i=0;i<actuall;i++){
             coinsnew.add(coinsnew.size(),(T)list.get(i));
@@ -136,24 +130,6 @@ public class State {
 
 
 
-    /**
-     * A játékosok adatbázisba kerülő pontszámát határozza meg.
-     *
-     * @param winner A  győztes játékos neve
-     * @param gamer A játékost reprezentáló objektum
-     * @return {@code 0}Ha nem ő a győztes játékos,
-     * {@code 1}Ha ő a győztes játékos
-     */
-    public int setUserScore(String winner, Gamer gamer){
-        return  (winner.equals(gamer.getUser_name())) ?1:0;
-    }
-
-
-    @Override
-    public String toString(){
-        return firstGamer+": "+firstPlayerScore+", "+secondGamer+": "+secondPlayerScore
-                +"\n unusedCoins: "+coins+"\n allcoins: "+savedCoins;
-    }
 
 
 }
