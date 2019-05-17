@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A játék  állapotát reprezentáló osztály.
+ * A játék  állapotterét reprezentáló osztály.
  */
 @Slf4j
 @Getter
@@ -123,8 +123,9 @@ public class State {
 
     /**
      *  A paraméterül kapott lista elemeinek megfelelő
-     *  sorrendbe rendezése.
-     *
+     *  sorrendbe rendezése a kiválasztott elem után következő
+     *  lesz a lista első a kiválasztott elem mögött lévő lesz
+     *  a lista utolsó eleme.
      *
      * @param actuall A lista azon eleme amely a rendezés alapja
      * @param list A rendezni kívánt lista
