@@ -84,21 +84,23 @@ public class State {
         if (roundNumber ==0){
             firstPLayer.playerScore +=coins.get(actuall);
             coins= setlist(actuall,coins);
-            log.debug(firstPLayer.playerName);
-            log.debug(firstPLayer.playerScore+"");
+            log.debug("First player name :{}, score:{}",firstPLayer.getPlayerName(),
+                      firstPLayer.getPlayerScore(),roundNumber);
+
         }
         else{
             if(roundNumber %2==0){
                 firstPLayer.playerScore +=coins.remove(actuall);
                 log.debug(coins.toString());
-                log.debug(firstPLayer.playerName);
-                log.debug(firstPLayer.playerScore+"");
+                log.debug("First player name :{}, score:{}",firstPLayer.getPlayerName(),
+                          firstPLayer.getPlayerScore(),roundNumber);
+
             }
             else{
                 secondPlayer.playerScore +=coins.remove(actuall);
                 log.debug(coins.toString());
-                log.debug(secondPlayer.playerName);
-                log.debug(secondPlayer.playerScore+"");
+                log.debug("Second player name :{}, score:{}",secondPlayer.getPlayerName(),
+                          secondPlayer.getPlayerScore(),roundNumber);
 
             }
         }
