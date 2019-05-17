@@ -17473,3 +17473,41 @@ create sequence hibernate_sequence start with 1 increment by  1
        add constraint FKkv19pw0tc9c9dc8i4c3jnc0r6 
        foreign key (SavedGamer_id) 
        references SavedGamer
+create sequence hibernate_sequence start with 1 increment by  1
+
+    create table Gamer (
+       id number(19,0) not null,
+        score number(10,0) not null,
+        user_name varchar2(255 char),
+        primary key (id)
+    )
+
+    create table SavedGamer (
+       id number(19,0) not null,
+        first_Score number(10,0) not null,
+        first_User varchar2(255 char),
+        round number(10,0) not null,
+        second_Score number(10,0) not null,
+        second_User varchar2(255 char),
+        primary key (id)
+    )
+
+    create table SavedGamer_allCoins (
+       SavedGamer_id number(19,0) not null,
+        allCoins number(10,0)
+    )
+
+    create table SavedGamer_buttons (
+       SavedGamer_id number(19,0) not null,
+        buttons varchar2(255 char)
+    )
+
+    alter table SavedGamer_allCoins 
+       add constraint FKdsq6gru8jkffuh78hjq1a8c26 
+       foreign key (SavedGamer_id) 
+       references SavedGamer
+
+    alter table SavedGamer_buttons 
+       add constraint FKkv19pw0tc9c9dc8i4c3jnc0r6 
+       foreign key (SavedGamer_id) 
+       references SavedGamer

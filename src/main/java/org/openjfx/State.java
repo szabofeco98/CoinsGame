@@ -18,11 +18,6 @@ import java.util.List;
  */
 @Slf4j
 public class State {
-    static Injector injector = Guice.createInjector(new PersistenceModule("Gamer"));
-
-    static GamerDao gamerDao = injector.getInstance(GamerDao.class);
-
-    static SavedGamerDao saveDao = injector.getInstance(SavedGamerDao.class);
 
 
     /**
@@ -139,44 +134,7 @@ public class State {
         return coinsnew;
     }
 
-    /**
-     *A játékosokat eltárolja az adatbázisban.
-     *
-     * @param winner A győztes játékos neve.
-     */
-    public void dataset(String winner){
-        Gamer gamer1= Gamer.builder().user_name(firstGamer).build();
-        Gamer gamer2= Gamer.builder().user_name(secondGamer).build();
-        gamer1.setScore(setUserScore(winner,gamer1));
-        gamer2.setScore(setUserScore(winner,gamer2));
-        gamer1=itwas(gamer1);
-        gamer2=itwas(gamer2);
 
-        if(gamer1!=null)
-          gamerDao.persist(gamer1);
-        if(gamer2!=null)
-           gamerDao.persist(gamer2);
-
-    }
-
-    /**
-     * Meghatározza hogy a játékos szerepel-e az adatbázisban.
-     *
-     * @param gamer A vizsgált játékos
-     * @return {@code null} Ha a játékos már szerepel az adatbázisban,
-     * {@code gamer}Ha a játékos még nem szerepelt az adatbázisban
-     */
-    public Gamer itwas(Gamer gamer){
-        List<Gamer> database= gamerDao.findAll();
-        for (Gamer std:database) {
-            if (std.getUser_name().equals(gamer.getUser_name())) {
-                std.setScore(std.getScore() + gamer.getScore());
-                gamerDao.update(std);
-                return null;
-            }
-        }
-        return gamer;
-    }
 
     /**
      * A játékosok adatbázisba kerülő pontszámát határozza meg.
@@ -190,100 +148,6 @@ public class State {
         return  (winner.equals(gamer.getUser_name())) ?1:0;
     }
 
-    /**
-     * Játékosok pontszáma alapján rendezett lista.
-     *
-     * @return Pontszám alapján rendezett lista.
-     */
-    public  List<Gamer> ranklist(){
-        return gamerDao.rank();
-    }
-
-    /**
-     * Menti az adatbázisba az aktuális játék állapotot.
-     *
-     * @param buttonNames még nem használt gombok.
-     */
-    public void saveGamer(List<String> buttonNames){
-        deleteTable();
-        SavedGamer savedGamer= SavedGamer.builder().first_Score(firstPlayerScore)
-                .buttons(buttonNames).second_Score(secondPlayerScore).first_User(firstGamer)
-                .second_User(secondGamer).round(roundnumber).allCoins(savedCoins)
-                .build();
-
-        log.debug("mentem az összes coint :"+savedGamer.getAllCoins());
-        saveDao.persist(savedGamer);
-    }
-
-    /**
-     * Törli mentett játék állapotot az adatbázisból,
-     *
-     */
-    public void deleteTable(){
-        List<SavedGamer> database= saveDao.findAll();
-        for (SavedGamer sg:database) {
-            saveDao.remove(sg);
-        }
-    }
-
-    /**
-     * Betölti az aktuális játékba az adatbázisban tárolt
-     * állapotot.
-     *
-     * @return betöltött új állapot.
-     */
-    public static State load (){
-        SavedGamer loaded=saveDao.findAll().get(0);
-        State state=new State();
-
-        state.firstPlayerScore=loaded.getFirst_Score();
-
-        state.secondPlayerScore=loaded.getSecond_Score();
-
-        state.savedCoins=loaded.getAllCoins();
-
-        state.firstGamer=loaded.getFirst_User();
-
-        state.secondGamer=loaded.getSecond_User();
-
-        state.roundnumber=loaded.getRound();
-
-        state.coins=state.loadUnusedCoin();
-
-        log.debug("\n"+state.toString()+"\nsavedButton");
-        return state;
-    }
-
-    /**
-     * Vizsgálja hogy van-e tárolt elem az adatbázisban.
-     *
-     * @return {@code true}Ha van,{@code false}Ha nincsen.
-     */
-    public boolean savedIsPresent(){
-        return !saveDao.findAll().isEmpty();
-    }
-
-    /**
-     * Vizsgálja hogy a mentett játékban milyen érméket
-     * vett el a felhasználó.
-     *
-     * @return Még nem elvett érmék.
-     */
-    public  List loadUnusedCoin(){
-        List<Integer> coinsNew=new ArrayList<>();
-        for (String s:getButtonsId()){
-            int index=Integer.parseInt(s.substring(4));
-            for (int i=0;i<savedCoins.size();i++){
-                if(index==i) coinsNew.add(savedCoins.get(i));
-            }
-        }
-        log.debug(coinsNew.toString());
-        return coinsNew;
-    }
-
-    public List<String> getButtonsId(){
-        return saveDao.findAll().get(0).getButtons();
-    }
 
     @Override
     public String toString(){

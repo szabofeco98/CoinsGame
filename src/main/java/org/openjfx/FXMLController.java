@@ -16,6 +16,7 @@ import java.util.List;
 
 public class FXMLController {
     State state;
+    Database database=new Database();
     List<ToggleButton> buttons;
     List<String> buttonNames;
     List<ToggleButton> loadedButton;
@@ -26,8 +27,6 @@ public class FXMLController {
     TableColumn<Object, Object> name;
     @FXML
     TableColumn<Object, Object> listscore;
-
-
 
 
     @FXML
@@ -121,19 +120,20 @@ public class FXMLController {
         mainMenu.setVisible(true);
     }
 
+
     @FXML
     public void save(ActionEvent actionEvent) {
         buttonNames=new ArrayList<>();
         for(ToggleButton tgb:buttons){
             buttonNames.add(tgb.getId());
         }
-        state.saveGamer(buttonNames);
+        database.saveGamer(buttonNames,state);
     }
 
     @FXML
     public void load(ActionEvent actionEvent)  {
-        if(state.savedIsPresent()){
-            state=State.load();
+        if(database.savedIsPresent()){
+            state=Database.load();
             deactivateButton();
             buttons=activateButton();
             goToGame();
@@ -174,7 +174,7 @@ public class FXMLController {
     }
 
     public void set_Rank(){
-        ObservableList<Gamer> obslist=FXCollections.observableList(state.ranklist());
+        ObservableList<Gamer> obslist=FXCollections.observableList(database.ranklist());
         name.setCellValueFactory(new PropertyValueFactory<>("user_name"));
         listscore.setCellValueFactory(new PropertyValueFactory<>("score"));
         ranklist.setItems(obslist);
@@ -201,8 +201,8 @@ public class FXMLController {
         String winner=state.firstPlayerScore >state.secondPlayerScore ? state.firstGamer :
                 state.firstPlayerScore <state.secondPlayerScore ? state.secondGamer :"Döntetlen";
         this.winner.setText(winner);
-        state.dataset(winner);
-        state.deleteTable();
+        database.dataset(winner,state);
+        //Database.deleteTable();
     }
 
     public void swap(){
@@ -239,6 +239,7 @@ public class FXMLController {
         gamerscore1.setText(state.firstPlayerScore+"");
         gamerscore2.setText(state.secondPlayerScore+"");
         error.setText("");
+        setnextPlayer();
     }
 
     public void deactivateButton(){
@@ -252,7 +253,7 @@ public class FXMLController {
 
     public List activateButton(){
         List<ToggleButton> buttonsNew=new ArrayList<>();
-        for(String s:state.getButtonsId()){
+        for(String s:Database.getButtonsId()){
             for (ToggleButton tgb:buttons){
                 if(tgb.getId().equals(s)){
                     tgb.setDisable(false);
