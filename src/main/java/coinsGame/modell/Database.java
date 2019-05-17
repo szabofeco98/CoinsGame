@@ -1,10 +1,11 @@
-package org.openjfx;
+package coinsGame;
 
+import coinsGame.modell.Gamer;
+import coinsGame.modell.GamerDao;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import guice.PersistenceModule;
-import org.openjfx.modell.Gamer;
-import org.openjfx.modell.GamerDao;
+
 import java.util.List;
 
 public class Database {

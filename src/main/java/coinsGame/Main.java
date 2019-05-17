@@ -1,4 +1,4 @@
-package org.openjfx;
+package coinsGame.main;
 
 import javafx.application.Application;
 

@@ -1,5 +1,8 @@
-package org.openjfx;
+package coinsGame.Conroller;
 
+import coinsGame.modell.Database;
+import coinsGame.modell.Gamer;
+import coinsGame.statePlayer.State;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import org.openjfx.modell.Gamer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,17 +56,18 @@ public class FXMLController {
             endGame(buttonindex);
         }
 
-        gamerscore1.setText(state.firstPLayer.playerScore +"");
-        gamerscore2.setText(state.secondPlayer.playerScore +"");
+        gamerscore1.setText(getFirstPlayerScore() +"");
+        gamerscore2.setText(getSecondPlayerScore() +"");
     }
 
     @FXML
     public void startButton(ActionEvent actionEvent) {
         initialize();
-        state.firstPLayer.playerName = getName1.getText().replaceAll("\\s+", "");
-        state.secondPlayer.playerName = getName2.getText().replaceAll("\\s+", "");
-        String firstName=state.firstPLayer.playerName;
-        String secondName=state.secondPlayer.playerName;
+        state.getFirstPLayer().setPlayerName( getName1.getText().replaceAll("\\s+", ""));
+        state.getSecondPlayer().setPlayerName( getName2.getText().replaceAll("\\s+", ""));
+
+        String firstName=state.getFirstPLayer().getPlayerName();
+        String secondName=state.getSecondPlayer().getPlayerName();
         if(!firstName.isEmpty() && !secondName.isEmpty()
                     && !firstName.equals(secondName)) {
             gamer1.setText(firstName);
@@ -82,12 +85,12 @@ public class FXMLController {
         popUpMenu.setVisible(false);
         gameMenu.setOpacity(1);
         swap();
-        gamer1.setText(state.firstPLayer.playerName);
-        gamer2.setText(state.secondPlayer.playerName);
+        gamer1.setText(getFirstPlayerName());
+        gamer2.setText(getSecondPlayerName());
         initialize();
-        state.firstPLayer.playerName=gamer1.getText();
-        state.secondPlayer.playerName=gamer2.getText();
-        state.roundNumber =0;
+        //state.getFirstPLayer().setPlayerName(gamer1.getText());
+        //state.secondPlayer.playerName=gamer2.getText();
+        state.setRoundNumber(0);
     }
 
     @FXML
@@ -135,7 +138,7 @@ public class FXMLController {
         buttons= getAllToggleButton();
 
         for(int i=0;i<12;i++){
-            buttons.get(i).setText(state.coins.get(i).toString());
+            buttons.get(i).setText(state.getCoins().get(i).toString());
             buttons.get(i).setDisable(false);
             buttons.get(i).setOpacity(1);
         }
@@ -144,23 +147,21 @@ public class FXMLController {
         gamerscore2.setText("0");
     }
 
-    public List getAllToggleButton(){
+    private List getAllToggleButton(){
         List<ToggleButton> Togglebuttons= new ArrayList<>();
         gameMenu.getChildren().filtered(node -> node instanceof ToggleButton)
                 .forEach(node -> Togglebuttons.add((ToggleButton) node));
         return Togglebuttons;
     }
 
-    public void set_Rank(){
+    private void set_Rank(){
         ObservableList<Gamer> obslist=FXCollections.observableList(database.ranklist());
         name.setCellValueFactory(new PropertyValueFactory<>("user_name"));
         listscore.setCellValueFactory(new PropertyValueFactory<>("score"));
         ranklist.setItems(obslist);
     }
 
-
-
-    public int getbutton(){
+    private int getbutton(){
         for (int i=0;i<this.buttons.size();i++){
             if (buttons.get(i).isSelected()){
                 buttons.get(i).setSelected(false);
@@ -170,48 +171,58 @@ public class FXMLController {
         return -1;
     }
 
-    public void endGame(int buttonindex){
+    private void endGame(int buttonindex){
         state.setPlayerScore(buttonindex);
         buttons.get(buttonindex).setDisable(true);
         buttons.remove(buttonindex).setOpacity(0.4);
         gameMenu.setOpacity(0.5);
         popUpMenu.setVisible(true);
-        int score1=state.firstPLayer.playerScore;
-        int score2=state.secondPlayer.playerScore;
+        int score1=getFirstPlayerScore();
+        int score2=getSecondPlayerScore();
 
-        String winner=score1 >score2 ? state.firstPLayer.playerName :
-                score1 <score2 ? state.secondPlayer.playerName :"Döntetlen";
+        String winner=score1 >score2 ? getFirstPlayerName() :
+                score1 <score2 ? getSecondPlayerName():"Döntetlen";
         this.winner.setText(winner);
         database.dataset(winner,state);
-        //Database.deleteTable();
     }
 
-    public void swap(){
-
-        String temp="";
-        temp=state.firstPLayer.playerName;
-        state.firstPLayer.playerName =state.secondPlayer.playerName;
-        state.secondPlayer.playerName =temp;
+    private void swap(){
+        String temp=getFirstPlayerName();
+        state.getFirstPLayer().setPlayerName(getSecondPlayerName());
+        state.getSecondPlayer().setPlayerName(temp);
     }
 
-    public void firststep(int buttonindex){
+    private void firststep(int buttonindex){
         buttons.get(buttonindex).setOpacity(0.4);
         buttons.get(buttonindex).setDisable(true);
         buttons = State.setlist(buttonindex, buttons);
     }
 
-    public void otherstep(int buttonindex){
+    private void otherstep(int buttonindex){
         buttons.get(buttonindex).setDisable(true);
         buttons.remove(buttonindex).setOpacity(0.4);
     }
 
-    public void setnextPlayer(){
-        String firstGamer=state.firstPLayer.playerName;
-        String secondGamer=state.secondPlayer.playerName;
-        if(state.roundNumber %2!=0)
-            nextPlayer.setText(firstGamer);
-        else nextPlayer.setText(secondGamer);
+    private void setnextPlayer(){
+        if(state.getRoundNumber() %2!=0)
+            nextPlayer.setText(getFirstPlayerName());
+        else nextPlayer.setText(getSecondPlayerName());
 
     }
 
+    private String getFirstPlayerName(){
+        return  state.getFirstPLayer().getPlayerName();
+    }
+
+    private String getSecondPlayerName(){
+         return state.getSecondPlayer().getPlayerName();
+    }
+
+    private int getFirstPlayerScore(){
+        return  state.getFirstPLayer().getPlayerScore();
+    }
+
+    private int getSecondPlayerScore(){
+        return state.getSecondPlayer().getPlayerScore();
+    }
 }

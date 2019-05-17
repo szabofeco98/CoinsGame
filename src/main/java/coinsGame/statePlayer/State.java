@@ -1,4 +1,4 @@
-package org.openjfx;
+package coinsGame;
 
 
 import lombok.extern.slf4j.Slf4j;
