@@ -1,4 +1,4 @@
-package coinsGame.Conroller;
+package coinsGame.conroller;
 
 import coinsGame.modell.Database;
 import coinsGame.modell.Gamer;

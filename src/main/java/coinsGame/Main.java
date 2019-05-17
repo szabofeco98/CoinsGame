@@ -1,4 +1,4 @@
-package coinsGame.main;
+package coinsGame;
 
 import javafx.application.Application;
 

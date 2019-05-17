@@ -1,4 +1,4 @@
-package org.openjfx.modell;
+package coinsGame.modell;
 
 import com.google.inject.persist.Transactional;
 import jpa.GenericJpaDao;

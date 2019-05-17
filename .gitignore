@@ -1,0 +1,7 @@
+cd.idea/
+target/
+nb-configuration.xml
+nbactions.xml
+Project_homework.iml
+Project.iml
+dependency-reduced-pom.xml

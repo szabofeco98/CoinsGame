@@ -22,7 +22,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>org.openjfx.Main</mainClass>
+        <mainClass>coinsGame.Main</mainClass>
         <log4j.version>2.11.2</log4j.version>
         <slf4j.version>1.7.26</slf4j.version>
     </properties>

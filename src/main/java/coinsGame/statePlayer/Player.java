@@ -1,5 +1,13 @@
-package coinsGame;
+package coinsGame.statePlayer;
 
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * Játékost reprezentáló osztály.
+ */
+@Getter
+@Setter
 public class Player {
     /**
      * Az első játékos neve.

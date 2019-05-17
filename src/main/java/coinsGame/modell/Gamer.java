@@ -1,4 +1,4 @@
-package org.openjfx.modell;
+package coinsGame.modell;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

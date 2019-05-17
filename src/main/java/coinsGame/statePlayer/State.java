@@ -1,6 +1,9 @@
-package coinsGame;
+package coinsGame.statePlayer;
 
 
+import coinsGame.statePlayer.Player;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -12,6 +15,8 @@ import java.util.List;
  * A játék  állapotát reprezentáló osztály.
  */
 @Slf4j
+@Getter
+@Setter
 public class State {
 
 
@@ -21,12 +26,12 @@ public class State {
      List<Integer> coins=new ArrayList<>();
 
     /**
-     * Az első játékos
+     * Az első játékos.
      */
      Player firstPLayer=new Player();
 
     /**
-     * A második játékos
+     * A második játékos.
      */
      Player secondPlayer=new Player();
 
@@ -47,25 +52,25 @@ public class State {
         }
     }
 
-     State(int listSize){
+    State(int listSize){
         for (int i=0;i<listSize;i++){
             coins.add(i);
         }
-     }
+    }
 
-     State(int listSize,int roundNumber){
+    State(int listSize,int roundNumber){
         for (int i=0;i<listSize;i++){
             coins.add(i);
         }
         this.roundNumber=roundNumber;
-     }
+    }
 
     /**
      *Vizsgálja hogy az aktuális állapot cél állapot.
      *
      * @return {@code true} ha a coins lista mérete 1.
      */
-      boolean isgoal(){
+    public boolean isgoal(){
         return roundNumber ==11;
     }
 
@@ -74,24 +79,32 @@ public class State {
      *
      * @param actuall a kiválasztott elem helye a coins listában
      */
-      void setPlayerScore(int actuall){
+    public void setPlayerScore(int actuall){
+        log.debug(coins.toString());
         if (roundNumber ==0){
             firstPLayer.playerScore +=coins.get(actuall);
             coins= setlist(actuall,coins);
+            log.debug(firstPLayer.playerName);
+            log.debug(firstPLayer.playerScore+"");
         }
         else{
             if(roundNumber %2==0){
                 firstPLayer.playerScore +=coins.remove(actuall);
                 log.debug(coins.toString());
+                log.debug(firstPLayer.playerName);
+                log.debug(firstPLayer.playerScore+"");
             }
             else{
                 secondPlayer.playerScore +=coins.remove(actuall);
                 log.debug(coins.toString());
+                log.debug(secondPlayer.playerName);
+                log.debug(secondPlayer.playerScore+"");
+
             }
         }
 
         roundNumber++;
-     }
+    }
 
     /**
      * Meghatározza hogy a felhasználó által választott elem
@@ -102,7 +115,7 @@ public class State {
      * lista két végéről választ a felhasználó,
      * {@code false} Minden más esetben
      */
-     boolean available(int actuall){
+     public boolean available(int actuall){
         return roundNumber ==0||actuall==0 || actuall==coins.size()-1;
      }
 
@@ -116,7 +129,7 @@ public class State {
      * @param <T> A visszatérő lista típusa
      * @return A rendezett lista.
      */
-     static <T> List setlist(int actuall, List list){
+     public static <T> List setlist(int actuall, List list){
         List<T> coinsnew=new ArrayList<>();
         for(int i=0;i<actuall;i++){
             coinsnew.add(coinsnew.size(),(T)list.get(i));
@@ -124,13 +137,8 @@ public class State {
         for(int i=list.size()-1;i>actuall;i--){
             coinsnew.add(0,(T)list.get(i));
         }
-        log.debug(coinsnew.toString());
         return coinsnew;
     }
-
-
-
-
 
 }
 

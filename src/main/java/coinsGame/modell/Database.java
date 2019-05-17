@@ -1,7 +1,8 @@
-package coinsGame;
+package coinsGame.modell;
 
 import coinsGame.modell.Gamer;
 import coinsGame.modell.GamerDao;
+import coinsGame.statePlayer.State;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import guice.PersistenceModule;
@@ -18,12 +19,21 @@ public class Database {
      *
      * @param winner A győztes játékos neve.
      */
-    public void dataset(String winner,State state){
-        Gamer gamer1= Gamer.builder().user_name(state.firstPLayer.playerName).build();
-        Gamer gamer2= Gamer.builder().user_name(state.secondPlayer.playerName).build();
+    public void dataset(String winner, State state){
+        String firtGamer=state.getFirstPLayer().getPlayerName();
+
+        String secondGamer=state.getSecondPlayer().getPlayerName();
+
+        Gamer gamer1= Gamer.builder().user_name(firtGamer).build();
+
+        Gamer gamer2= Gamer.builder().user_name(secondGamer).build();
+
         gamer1.setScore(setUserScore(winner,gamer1));
+
         gamer2.setScore(setUserScore(winner,gamer2));
+
         gamer1=itwas(gamer1);
+
         gamer2=itwas(gamer2);
 
         if(gamer1!=null)
